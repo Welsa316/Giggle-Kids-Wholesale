@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import {
   shopifyRequest,
   isShopifyConfigured,
+  formatMoney,
   MUTATION_CART_CREATE,
   MUTATION_CART_LINES_ADD,
   MUTATION_CART_LINES_UPDATE,
@@ -14,7 +15,9 @@ const STORAGE_KEY = 'gk_cart_id'
 
 const cart = ref(null)
 const loading = ref(false)
+const mutating = ref(false)
 const error = ref(null)
+const expiredNotice = ref(false)
 const drawerOpen = ref(false)
 
 const totalQuantity = computed(() => cart.value?.totalQuantity || 0)
@@ -24,6 +27,21 @@ const lines = computed(() =>
 const checkoutUrl = computed(() => cart.value?.checkoutUrl || null)
 const subtotal = computed(() => cart.value?.cost?.subtotalAmount || null)
 const total = computed(() => cart.value?.cost?.totalAmount || null)
+
+function clearError() {
+  error.value = null
+}
+
+function dismissExpiredNotice() {
+  expiredNotice.value = false
+}
+
+export function cartLineSubtotal(line) {
+  if (!line?.merchandise?.price) return ''
+  const amt = parseFloat(line.merchandise.price.amount) * line.quantity
+  if (Number.isNaN(amt)) return ''
+  return formatMoney({ amount: String(amt), currencyCode: line.merchandise.price.currencyCode })
+}
 
 async function loadCart() {
   if (!isShopifyConfigured) return
@@ -35,9 +53,11 @@ async function loadCart() {
     if (data?.cart) {
       cart.value = data.cart
     } else {
-      // cart expired or invalid — clear
+      // Cart expired or invalid — surface this to the user so they
+      // understand why their bag is empty.
       localStorage.removeItem(STORAGE_KEY)
       cart.value = null
+      expiredNotice.value = true
     }
   } catch (e) {
     error.value = e.message
@@ -52,24 +72,23 @@ async function ensureCart() {
   if (!isShopifyConfigured) {
     throw new Error('Shopify not configured.')
   }
-  loading.value = true
-  try {
-    const data = await shopifyRequest(MUTATION_CART_CREATE, { input: {} })
-    const errs = data?.cartCreate?.userErrors
-    if (errs?.length) throw new Error(errs.map((e) => e.message).join('; '))
-    cart.value = data.cartCreate.cart
-    localStorage.setItem(STORAGE_KEY, cart.value.id)
-    return cart.value
-  } finally {
-    loading.value = false
-  }
+  const data = await shopifyRequest(MUTATION_CART_CREATE, { input: {} })
+  const errs = data?.cartCreate?.userErrors
+  if (errs?.length) throw new Error(errs.map((e) => e.message).join('; '))
+  cart.value = data.cartCreate.cart
+  localStorage.setItem(STORAGE_KEY, cart.value.id)
+  return cart.value
 }
 
 async function addLine(merchandiseId, quantity = 1, attributes = []) {
-  await ensureCart()
+  // Race-condition guard: if another mutation is in flight, refuse the
+  // call so we don't end up with duplicate lines on Shopify.
+  if (mutating.value) return
+  mutating.value = true
   loading.value = true
   error.value = null
   try {
+    await ensureCart()
     const data = await shopifyRequest(MUTATION_CART_LINES_ADD, {
       cartId: cart.value.id,
       lines: [{ merchandiseId, quantity, attributes }],
@@ -82,13 +101,20 @@ async function addLine(merchandiseId, quantity = 1, attributes = []) {
     error.value = e.message
     throw e
   } finally {
+    mutating.value = false
     loading.value = false
   }
 }
 
 async function updateLine(lineId, quantity) {
   if (!cart.value?.id) return
+  if (mutating.value) return
+  // Quantity 0 = remove. Shopify accepts it but the intent is clearer
+  // (and the empty-cart path is exercised) if we delegate explicitly.
+  if (quantity <= 0) return removeLine(lineId)
+  mutating.value = true
   loading.value = true
+  error.value = null
   try {
     const data = await shopifyRequest(MUTATION_CART_LINES_UPDATE, {
       cartId: cart.value.id,
@@ -101,13 +127,17 @@ async function updateLine(lineId, quantity) {
     error.value = e.message
     throw e
   } finally {
+    mutating.value = false
     loading.value = false
   }
 }
 
 async function removeLine(lineId) {
   if (!cart.value?.id) return
+  if (mutating.value) return
+  mutating.value = true
   loading.value = true
+  error.value = null
   try {
     const data = await shopifyRequest(MUTATION_CART_LINES_REMOVE, {
       cartId: cart.value.id,
@@ -120,6 +150,7 @@ async function removeLine(lineId) {
     error.value = e.message
     throw e
   } finally {
+    mutating.value = false
     loading.value = false
   }
 }
@@ -142,12 +173,17 @@ export function useCart() {
     cart,
     lines,
     loading,
+    mutating,
     error,
+    expiredNotice,
     drawerOpen,
     totalQuantity,
     subtotal,
     total,
     checkoutUrl,
+    cartLineSubtotal,
+    clearError,
+    dismissExpiredNotice,
     loadCart,
     addLine,
     updateLine,

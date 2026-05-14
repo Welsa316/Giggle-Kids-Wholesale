@@ -40,11 +40,29 @@ if (!isShopifyConfigured && import.meta.env.DEV) {
 // HELPER — run a query, throw on error
 // =============================================================================
 
-export async function shopifyRequest(query, variables = {}) {
+const DEFAULT_TIMEOUT_MS = 8000
+
+export async function shopifyRequest(query, variables = {}, { timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
   if (!shopifyClient) {
     throw new Error('Shopify client not configured. See SHOPIFY_SETUP.md.')
   }
-  const { data, errors } = await shopifyClient.request(query, { variables })
+
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error('Shopify request timed out — please try again.')), timeoutMs)
+  })
+
+  let result
+  try {
+    result = await Promise.race([
+      shopifyClient.request(query, { variables }),
+      timeoutPromise,
+    ])
+  } catch (e) {
+    // Network error, abort, timeout — all surface as a single user-facing message.
+    throw new Error(e?.message || 'Could not reach Shopify. Check your connection and try again.')
+  }
+
+  const { data, errors } = result
   if (errors) {
     const msg = Array.isArray(errors.graphQLErrors)
       ? errors.graphQLErrors.map((e) => e.message).join('; ')
@@ -246,13 +264,28 @@ export const QUERY_CART = `
 // MONEY FORMATTING
 // =============================================================================
 
+// Map common currencies to a locale that renders their native symbol well.
+// USD → en-US ($), CAD → en-CA (CA$), GBP → en-GB (£), EUR → en-IE (€), etc.
+const CURRENCY_LOCALE = {
+  USD: 'en-US',
+  CAD: 'en-CA',
+  GBP: 'en-GB',
+  EUR: 'en-IE',
+  AUD: 'en-AU',
+  NZD: 'en-NZ',
+  JPY: 'ja-JP',
+  MXN: 'es-MX',
+}
+
 export function formatMoney(money) {
   if (!money) return ''
   const amount = parseFloat(money.amount)
   if (Number.isNaN(amount)) return ''
-  return new Intl.NumberFormat('en-US', {
+  const currency = money.currencyCode || 'USD'
+  const locale = CURRENCY_LOCALE[currency] || 'en-US'
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: money.currencyCode || 'USD',
+    currency,
     minimumFractionDigits: amount % 1 === 0 ? 0 : 2,
     maximumFractionDigits: 2,
   }).format(amount)

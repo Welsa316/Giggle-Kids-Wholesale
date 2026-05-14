@@ -1,13 +1,62 @@
 <script setup>
+import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { useCart } from '../../composables/useCart.js'
 import { formatMoney, isShopifyConfigured } from '../../lib/shopify.js'
 
-const { lines, drawerOpen, closeCart, updateLine, removeLine, subtotal, checkoutUrl, totalQuantity, loading } = useCart()
+const {
+  lines, drawerOpen, closeCart, updateLine, removeLine,
+  subtotal, checkoutUrl, totalQuantity, loading, mutating,
+  error, expiredNotice, clearError, dismissExpiredNotice,
+  cartLineSubtotal,
+} = useCart()
 
-function lineSubtotal(line) {
-  const amt = parseFloat(line.merchandise.price.amount) * line.quantity
-  return formatMoney({ amount: String(amt), currencyCode: line.merchandise.price.currencyCode })
+const asideRef = ref(null)
+let lastFocused = null
+
+function onImgError(e) {
+  // Hide broken Shopify CDN images so a blank box doesn't break layout.
+  e.target.style.visibility = 'hidden'
 }
+
+function onKeydown(e) {
+  if (!drawerOpen.value) return
+  if (e.key === 'Escape') {
+    closeCart()
+    return
+  }
+  if (e.key !== 'Tab') return
+  // Trap focus inside the drawer
+  const focusable = asideRef.value?.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )
+  if (!focusable || focusable.length === 0) return
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault()
+    last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault()
+    first.focus()
+  }
+}
+
+watch(drawerOpen, async (open) => {
+  if (open) {
+    lastFocused = document.activeElement
+    await nextTick()
+    asideRef.value?.querySelector('button, a')?.focus()
+  } else if (lastFocused?.focus) {
+    lastFocused.focus()
+  }
+})
+
+onMounted(() => {
+  document.addEventListener('keydown', onKeydown)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', onKeydown)
+})
 </script>
 
 <template>
@@ -36,14 +85,18 @@ function lineSubtotal(line) {
     >
       <aside
         v-if="drawerOpen"
+        ref="asideRef"
         class="fixed top-0 right-0 z-50 h-full w-full sm:w-[440px] bg-cream flex flex-col shadow-lift"
         role="dialog"
+        aria-modal="true"
         aria-label="Shopping cart"
       >
         <header class="flex items-center justify-between px-6 md:px-8 py-6 border-b border-border">
           <div>
             <p class="text-[10px] uppercase tracking-[0.28em] text-ink-soft font-semibold mb-1">Your bag</p>
-            <p class="font-serif text-xl text-ink">{{ totalQuantity }} {{ totalQuantity === 1 ? 'item' : 'items' }}</p>
+            <p class="font-serif text-xl text-ink" aria-live="polite">
+              {{ totalQuantity }} {{ totalQuantity === 1 ? 'item' : 'items' }}
+            </p>
           </div>
           <button
             type="button"
@@ -56,6 +109,34 @@ function lineSubtotal(line) {
             </svg>
           </button>
         </header>
+
+        <!-- Error banner -->
+        <div
+          v-if="error"
+          class="mx-6 md:mx-8 mt-4 bg-red-50 border border-red-200 text-red-900 text-sm px-4 py-3 flex items-start justify-between gap-3"
+          role="alert"
+        >
+          <span class="font-serif italic leading-relaxed">{{ error }}</span>
+          <button
+            type="button"
+            class="text-red-700 hover:text-red-900 shrink-0 text-xs uppercase tracking-[0.18em] font-semibold"
+            @click="clearError"
+          >Dismiss</button>
+        </div>
+
+        <!-- Cart-expired notice -->
+        <div
+          v-if="expiredNotice"
+          class="mx-6 md:mx-8 mt-4 bg-amber-50 border border-amber-200 text-amber-900 text-sm px-4 py-3 flex items-start justify-between gap-3"
+          role="status"
+        >
+          <span class="font-serif italic leading-relaxed">Your previous cart session expired. Please add items again.</span>
+          <button
+            type="button"
+            class="text-amber-800 hover:text-amber-900 shrink-0 text-xs uppercase tracking-[0.18em] font-semibold"
+            @click="dismissExpiredNotice"
+          >Dismiss</button>
+        </div>
 
         <div class="flex-1 overflow-y-auto px-6 md:px-8 py-6">
           <div v-if="!isShopifyConfigured" class="text-center py-16">
@@ -86,12 +167,13 @@ function lineSubtotal(line) {
                   :alt="line.merchandise.image.altText || line.merchandise.product.title"
                   class="w-full h-full object-cover"
                   loading="lazy"
+                  @error="onImgError"
                 />
               </router-link>
               <div class="flex-1 flex flex-col gap-1.5 min-w-0">
                 <router-link
                   :to="`/products/${line.merchandise.product.handle}`"
-                  class="font-serif text-base text-ink leading-tight hover:text-purple transition-colors"
+                  class="font-serif text-base text-ink leading-tight hover:text-purple transition-colors line-clamp-2"
                   @click="closeCart"
                 >
                   {{ line.merchandise.product.title }}
@@ -103,23 +185,31 @@ function lineSubtotal(line) {
                   <div class="inline-flex items-center border border-border-ink/60">
                     <button
                       type="button"
-                      class="w-7 h-7 flex items-center justify-center text-ink hover:text-purple transition-colors"
+                      class="w-7 h-7 flex items-center justify-center text-ink hover:text-purple transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                      :disabled="mutating"
                       :aria-label="`Decrease ${line.merchandise.product.title} quantity`"
-                      @click="updateLine(line.id, Math.max(0, line.quantity - 1))"
-                    >−</button>
-                    <span class="w-7 text-center text-sm text-ink">{{ line.quantity }}</span>
+                      @click="updateLine(line.id, line.quantity - 1)"
+                    >
+                      <span aria-hidden="true">−</span>
+                    </button>
+                    <span class="w-7 text-center text-sm text-ink tabular-nums">{{ line.quantity }}</span>
                     <button
                       type="button"
-                      class="w-7 h-7 flex items-center justify-center text-ink hover:text-purple transition-colors"
+                      class="w-7 h-7 flex items-center justify-center text-ink hover:text-purple transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                      :disabled="mutating"
                       :aria-label="`Increase ${line.merchandise.product.title} quantity`"
                       @click="updateLine(line.id, line.quantity + 1)"
-                    >+</button>
+                    >
+                      <span aria-hidden="true">+</span>
+                    </button>
                   </div>
-                  <p class="font-serif text-base text-ink">{{ lineSubtotal(line) }}</p>
+                  <p class="font-serif text-base text-ink tabular-nums">{{ cartLineSubtotal(line) }}</p>
                 </div>
                 <button
                   type="button"
-                  class="self-start text-[10px] uppercase tracking-[0.22em] text-ink-soft hover:text-purple transition-colors mt-1"
+                  class="self-start text-[10px] uppercase tracking-[0.22em] text-ink-soft hover:text-purple transition-colors mt-1 disabled:opacity-40"
+                  :disabled="mutating"
+                  :aria-label="`Remove ${line.merchandise.product.title} from cart`"
                   @click="removeLine(line.id)"
                 >
                   Remove
@@ -132,7 +222,7 @@ function lineSubtotal(line) {
         <footer v-if="lines.length > 0" class="px-6 md:px-8 py-6 border-t border-border bg-cream-deep">
           <div class="flex items-baseline justify-between mb-1">
             <p class="text-[11px] uppercase tracking-[0.22em] text-ink-muted font-semibold">Subtotal</p>
-            <p class="font-serif text-2xl text-ink">{{ formatMoney(subtotal) }}</p>
+            <p class="font-serif text-2xl text-ink tabular-nums">{{ formatMoney(subtotal) || '—' }}</p>
           </div>
           <p class="text-[11px] text-ink-soft mb-5">Shipping &amp; taxes calculated at checkout.</p>
           <a

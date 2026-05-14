@@ -2,11 +2,14 @@
 import { useCart } from '../composables/useCart.js'
 import { formatMoney, isShopifyConfigured } from '../lib/shopify.js'
 
-const { lines, totalQuantity, subtotal, checkoutUrl, updateLine, removeLine } = useCart()
+const {
+  lines, totalQuantity, subtotal, checkoutUrl,
+  updateLine, removeLine, mutating, error, clearError,
+  cartLineSubtotal,
+} = useCart()
 
-function lineSubtotal(line) {
-  const amt = parseFloat(line.merchandise.price.amount) * line.quantity
-  return formatMoney({ amount: String(amt), currencyCode: line.merchandise.price.currencyCode })
+function onImgError(e) {
+  e.target.style.visibility = 'hidden'
 }
 </script>
 
@@ -18,6 +21,19 @@ function lineSubtotal(line) {
         {{ totalQuantity }} {{ totalQuantity === 1 ? 'item' : 'items' }}
       </h1>
     </header>
+
+    <div
+      v-if="error"
+      class="mb-8 bg-red-50 border border-red-200 text-red-900 text-sm px-4 py-3 flex items-start justify-between gap-3 max-w-2xl"
+      role="alert"
+    >
+      <span class="font-serif italic leading-relaxed">{{ error }}</span>
+      <button
+        type="button"
+        class="text-red-700 hover:text-red-900 shrink-0 text-xs uppercase tracking-[0.18em] font-semibold"
+        @click="clearError"
+      >Dismiss</button>
+    </div>
 
     <div v-if="!isShopifyConfigured" class="bg-cream-deep p-8 md:p-12 text-center">
       <p class="font-serif text-2xl text-ink mb-3">Cart unavailable</p>
@@ -49,12 +65,13 @@ function lineSubtotal(line) {
               :alt="line.merchandise.image.altText || line.merchandise.product.title"
               class="w-full h-full object-cover"
               loading="lazy"
+              @error="onImgError"
             />
           </router-link>
           <div class="flex-1 flex flex-col gap-2 min-w-0">
             <router-link
               :to="`/products/${line.merchandise.product.handle}`"
-              class="font-serif text-xl text-ink leading-tight hover:text-purple transition-colors"
+              class="font-serif text-xl text-ink leading-tight hover:text-purple transition-colors line-clamp-2"
             >
               {{ line.merchandise.product.title }}
             </router-link>
@@ -65,21 +82,27 @@ function lineSubtotal(line) {
               <div class="inline-flex items-center border border-border-ink/60">
                 <button
                   type="button"
-                  class="w-8 h-8 flex items-center justify-center text-ink hover:text-purple transition-colors"
-                  @click="updateLine(line.id, Math.max(0, line.quantity - 1))"
-                >−</button>
-                <span class="w-8 text-center text-sm text-ink">{{ line.quantity }}</span>
+                  :disabled="mutating"
+                  class="w-8 h-8 flex items-center justify-center text-ink hover:text-purple transition-colors disabled:opacity-40"
+                  :aria-label="`Decrease ${line.merchandise.product.title} quantity`"
+                  @click="updateLine(line.id, line.quantity - 1)"
+                ><span aria-hidden="true">−</span></button>
+                <span class="w-8 text-center text-sm text-ink tabular-nums">{{ line.quantity }}</span>
                 <button
                   type="button"
-                  class="w-8 h-8 flex items-center justify-center text-ink hover:text-purple transition-colors"
+                  :disabled="mutating"
+                  class="w-8 h-8 flex items-center justify-center text-ink hover:text-purple transition-colors disabled:opacity-40"
+                  :aria-label="`Increase ${line.merchandise.product.title} quantity`"
                   @click="updateLine(line.id, line.quantity + 1)"
-                >+</button>
+                ><span aria-hidden="true">+</span></button>
               </div>
-              <p class="font-serif text-xl text-ink">{{ lineSubtotal(line) }}</p>
+              <p class="font-serif text-xl text-ink tabular-nums">{{ cartLineSubtotal(line) }}</p>
             </div>
             <button
               type="button"
-              class="self-start text-[10px] uppercase tracking-[0.22em] text-ink-soft hover:text-purple transition-colors mt-2"
+              :disabled="mutating"
+              class="self-start text-[10px] uppercase tracking-[0.22em] text-ink-soft hover:text-purple transition-colors mt-2 disabled:opacity-40"
+              :aria-label="`Remove ${line.merchandise.product.title} from cart`"
               @click="removeLine(line.id)"
             >
               Remove
@@ -92,7 +115,7 @@ function lineSubtotal(line) {
         <p class="text-[10px] uppercase tracking-[0.22em] text-ink-muted font-semibold mb-4">Summary</p>
         <dl class="flex justify-between mb-2">
           <dt class="text-sm text-ink-muted">Subtotal</dt>
-          <dd class="font-serif text-2xl text-ink">{{ formatMoney(subtotal) }}</dd>
+          <dd class="font-serif text-2xl text-ink tabular-nums">{{ formatMoney(subtotal) || '—' }}</dd>
         </dl>
         <p class="text-xs text-ink-soft mb-6">Shipping &amp; taxes calculated at checkout.</p>
         <a
