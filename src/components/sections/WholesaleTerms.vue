@@ -2,28 +2,39 @@
 // TODO: confirm real numbers with Giggle Kids before launch
 const terms = [
   { label: 'Opening order', value: '$150' },
-  { label: 'Reorder minimum', value: '$75' },
+  { label: 'Reorders from', value: '$75' },
   { label: 'Fulfillment', value: '2–3 days' },
-  { label: 'Payment terms', value: 'NET 60 via Faire' },
+  { label: 'Terms', value: 'NET 60' },
 ]
 </script>
 
 <template>
   <section
-    class="bg-purple text-cream"
+    class="bg-ink text-cream relative overflow-hidden"
     aria-label="Wholesale terms at a glance"
   >
-    <div class="container-page py-8 md:py-10">
-      <ul class="grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-8 lg:divide-x lg:divide-cream/20">
+    <div class="container-page py-12 md:py-14">
+      <div class="flex items-center gap-4 mb-8 md:mb-10" data-reveal>
+        <span aria-hidden="true" class="block w-10 h-px bg-cream/40" />
+        <p class="text-eyebrow uppercase tracking-[0.28em] text-cream/60 font-semibold">
+          Trade terms
+        </p>
+      </div>
+
+      <ul
+        class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 lg:divide-x lg:divide-cream/15"
+        data-reveal
+        style="--reveal-delay: 120ms"
+      >
         <li
-          v-for="term in terms"
+          v-for="(term, i) in terms"
           :key="term.label"
-          class="text-center lg:px-4 first:lg:pl-0 last:lg:pr-0"
+          class="lg:px-8 first:lg:pl-0 last:lg:pr-0 flex flex-col gap-3"
         >
-          <p class="text-[11px] md:text-xs uppercase tracking-[0.18em] text-cream/65 font-semibold mb-1.5">
-            {{ term.label }}
+          <p class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold">
+            {{ String(i + 1).padStart(2, '0') }} &nbsp; {{ term.label }}
           </p>
-          <p class="font-serif text-xl md:text-2xl">{{ term.value }}</p>
+          <p class="font-serif text-3xl md:text-4xl text-cream leading-none">{{ term.value }}</p>
         </li>
       </ul>
     </div>

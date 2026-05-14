@@ -10,12 +10,20 @@ defineProps({
 <template>
   <header
     :class="[
-      'flex flex-col gap-3 max-w-2xl',
+      'flex flex-col gap-4 max-w-2xl',
       align === 'center' && 'mx-auto text-center items-center',
     ]"
+    data-reveal
   >
-    <p v-if="eyebrow" class="eyebrow">{{ eyebrow }}</p>
-    <h2 class="font-serif text-h2 text-ink">{{ title }}</h2>
-    <p v-if="description" class="text-base md:text-lg text-ink-muted leading-relaxed">{{ description }}</p>
+    <div v-if="eyebrow" class="flex items-center gap-3" :class="align === 'center' && 'justify-center'">
+      <span aria-hidden="true" class="block w-6 h-px bg-purple/60" />
+      <p class="eyebrow">{{ eyebrow }}</p>
+    </div>
+    <h2 class="font-serif text-h2 text-ink">
+      <slot name="title">{{ title }}</slot>
+    </h2>
+    <p v-if="description" class="text-base md:text-lg text-ink-muted leading-relaxed max-w-prose">
+      {{ description }}
+    </p>
   </header>
 </template>

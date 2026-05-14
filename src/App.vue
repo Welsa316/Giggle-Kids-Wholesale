@@ -11,6 +11,9 @@ import AboutFounder from './components/sections/AboutFounder.vue'
 import HowToOrder from './components/sections/HowToOrder.vue'
 import InquiryForm from './components/sections/InquiryForm.vue'
 import SiteFooter from './components/sections/SiteFooter.vue'
+import { useReveal } from './composables/useReveal.js'
+
+useReveal()
 </script>
 
 <template>

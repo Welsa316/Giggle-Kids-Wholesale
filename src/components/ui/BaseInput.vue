@@ -19,10 +19,10 @@ const errorId = computed(() => `error-${uid}`)
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5">
-    <label :for="inputId" class="text-sm font-semibold text-ink">
+  <div class="flex flex-col gap-2">
+    <label :for="inputId" class="text-[10px] uppercase tracking-[0.22em] font-semibold text-ink-muted">
       {{ label }}
-      <span v-if="required" class="text-purple/70" aria-hidden="true">*</span>
+      <span v-if="required" class="text-purple/70 ml-1" aria-hidden="true">*</span>
     </label>
     <input
       :id="inputId"
@@ -33,11 +33,11 @@ const errorId = computed(() => `error-${uid}`)
       :autocomplete="autocomplete"
       :aria-invalid="!!error"
       :aria-describedby="error ? errorId : undefined"
-      class="w-full bg-white border border-border rounded px-4 py-3 text-ink placeholder:text-ink-muted/60 transition-colors focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15"
-      :class="error && 'border-red-400 focus:border-red-500 focus:ring-red-200'"
+      class="w-full bg-transparent border-0 border-b border-border-ink text-ink placeholder:text-ink-soft/60 font-serif text-lg pb-3 pt-1 transition-colors focus:outline-none focus:border-purple"
+      :class="error && 'border-red-500/70 focus:border-red-600'"
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="$emit('blur')"
     />
-    <p v-if="error" :id="errorId" class="text-xs text-red-600 mt-0.5">{{ error }}</p>
+    <p v-if="error" :id="errorId" class="text-xs text-red-700 mt-1 italic font-serif">{{ error }}</p>
   </div>
 </template>
