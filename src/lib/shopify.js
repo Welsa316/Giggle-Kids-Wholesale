@@ -116,6 +116,10 @@ const VARIANT_FIELDS = `
   image { ${IMAGE_FIELDS} }
 `
 
+// Compact field set used everywhere a product appears as a card.
+// IMPORTANT: don't add an "images" selection here — PRODUCT_FULL_FIELDS extends
+// this with images(first: 8) and selecting the same field twice with different
+// arguments crashes the GraphQL query. Cards use featuredImage only.
 export const PRODUCT_CARD_FIELDS = `
   id
   title
@@ -128,9 +132,6 @@ export const PRODUCT_CARD_FIELDS = `
   }
   compareAtPriceRange {
     minVariantPrice { ${MONEY_FIELDS} }
-  }
-  images(first: 2) {
-    edges { node { ${IMAGE_FIELDS} } }
   }
   featuredImage { ${IMAGE_FIELDS} }
 `

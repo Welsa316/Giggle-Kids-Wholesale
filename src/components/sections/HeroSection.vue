@@ -5,10 +5,10 @@
 // Just a slow ken-burns zoom on the photo (CSS only, gated by
 // prefers-reduced-motion in main.css).
 //
-// Photo: Galina Kondratenko on Unsplash — child in white at sunlit
-// window, soft selective focus. Verified 200.
-// TODO: replace with real Giggle Kids campaign photography.
-const HERO_PHOTO = 'https://images.unsplash.com/photo-1675098023496-10749984fac6?auto=format&fit=crop&w=1400&q=80'
+// Photo: Galina Kondratenko on Unsplash — child in white at sunlit window.
+// Editorial heritage feel; verified 200. Two sizes for mobile vs desktop.
+const HERO_PHOTO_DESKTOP = 'https://images.unsplash.com/photo-1675098023496-10749984fac6?auto=format&fit=crop&w=1400&q=80'
+const HERO_PHOTO_MOBILE  = 'https://images.unsplash.com/photo-1675098023496-10749984fac6?auto=format&fit=crop&w=800&q=80'
 
 function onImgError(e) {
   e.target.style.visibility = 'hidden'
@@ -31,7 +31,7 @@ function onImgError(e) {
       aria-label="Shop all products"
     >
       <img
-        :src="HERO_PHOTO"
+        :src="HERO_PHOTO_MOBILE"
         alt=""
         class="w-full h-full object-cover object-center ken-burns"
         loading="eager"
@@ -86,7 +86,7 @@ function onImgError(e) {
       aria-label="Shop all products"
     >
       <img
-        :src="HERO_PHOTO"
+        :src="HERO_PHOTO_DESKTOP"
         alt=""
         class="w-full h-full object-cover object-center ken-burns"
         loading="eager"

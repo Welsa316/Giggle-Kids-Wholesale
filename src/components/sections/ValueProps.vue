@@ -13,7 +13,7 @@ const valueProps = [
   {
     number: '02',
     title: 'Built to be kept',
-    body: 'Reinforced seams, finished hems, and materials chosen to survive a younger sibling.',
+    body: 'Materials and construction chosen to survive a younger sibling — heirloom quality, not seasonal fast fashion.',
   },
   {
     number: '03',

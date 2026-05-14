@@ -7,7 +7,7 @@ const year = new Date().getFullYear()
     <div class="container-page pt-section md:pt-section-lg pb-12">
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 pb-16 md:pb-20 border-b border-cream/10">
         <div class="lg:col-span-7 flex flex-col gap-7" data-reveal>
-          <p class="text-[10px] uppercase tracking-[0.32em] text-cream/50 mb-3">Est. 2026 &middot; New Orleans</p>
+          <p class="text-[10px] uppercase tracking-[0.32em] text-cream/65 mb-3">Est. 2026 &middot; New Orleans</p>
           <router-link to="/" class="inline-block" aria-label="Giggle Kids — Home">
             <span class="logo-mask block h-20 md:h-24 lg:h-28 text-cream" role="img" aria-label="Giggle Kids" />
           </router-link>
@@ -17,7 +17,7 @@ const year = new Date().getFullYear()
         </div>
 
         <div class="lg:col-span-5 flex flex-col gap-3 lg:items-end" data-reveal style="--reveal-delay: 150ms">
-          <p class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-cream/75 font-semibold">
             Get in touch
           </p>
           <a
@@ -37,7 +37,7 @@ const year = new Date().getFullYear()
 
       <div class="grid grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16 py-12 md:py-16 border-b border-cream/10">
         <div>
-          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Shop</h4>
+          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/75 font-semibold mb-5">Shop</h4>
           <ul class="flex flex-col gap-3 text-sm">
             <li><router-link to="/collections/all" class="text-cream/85 hover:text-cream transition-colors">All products</router-link></li>
             <li><router-link to="/collections/new-arrivals" class="text-cream/85 hover:text-cream transition-colors">New arrivals</router-link></li>
@@ -45,7 +45,7 @@ const year = new Date().getFullYear()
         </div>
 
         <div>
-          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">About</h4>
+          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/75 font-semibold mb-5">About</h4>
           <ul class="flex flex-col gap-3 text-sm">
             <li><router-link to="/about" class="text-cream/85 hover:text-cream transition-colors">Our story</router-link></li>
             <li><a href="mailto:gigglekids786@gmail.com" class="text-cream/85 hover:text-cream transition-colors">Contact us</a></li>
@@ -53,7 +53,7 @@ const year = new Date().getFullYear()
         </div>
       </div>
 
-      <div class="pt-8 text-[10px] uppercase tracking-[0.22em] text-cream/45">
+      <div class="pt-8 text-[10px] uppercase tracking-[0.22em] text-cream/65">
         <p>© {{ year }} Giggle Kids LLC · Made in New Orleans</p>
       </div>
     </div>
