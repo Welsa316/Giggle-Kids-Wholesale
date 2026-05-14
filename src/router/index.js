@@ -29,26 +29,6 @@ const routes = [
     component: () => import('../views/AboutView.vue'),
   },
   {
-    path: '/account',
-    name: 'account',
-    component: () => import('../views/AccountView.vue'),
-  },
-  {
-    path: '/account/login',
-    name: 'account-login',
-    component: () => import('../views/AccountLoginView.vue'),
-  },
-  {
-    path: '/account/callback',
-    name: 'account-callback',
-    component: () => import('../views/AccountCallbackView.vue'),
-  },
-  {
-    path: '/account/orders',
-    name: 'account-orders',
-    component: () => import('../views/AccountView.vue'),
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('../views/NotFoundView.vue'),

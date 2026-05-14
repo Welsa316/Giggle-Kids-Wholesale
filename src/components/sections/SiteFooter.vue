@@ -79,11 +79,11 @@ const year = new Date().getFullYear()
         <div>
           <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Help</h4>
           <ul class="flex flex-col gap-3 text-sm">
-            <li><router-link to="/account" class="text-cream/85 hover:text-cream transition-colors">My account</router-link></li>
-            <li><router-link to="/account/orders" class="text-cream/85 hover:text-cream transition-colors">Order status</router-link></li>
             <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Shipping</a></li>
             <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Returns</a></li>
             <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Sizing</a></li>
+            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Care</a></li>
+            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">FAQ</a></li>
           </ul>
         </div>
 

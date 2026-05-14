@@ -1,13 +1,11 @@
 <script setup>
-import { ref, watch, onUnmounted, onMounted, computed } from 'vue'
+import { ref, watch, onUnmounted, onMounted } from 'vue'
 import { useCart } from '../../composables/useCart.js'
-import { useCustomer } from '../../composables/useCustomer.js'
 
 const open = ref(false)
 const scrolled = ref(false)
 
 const { totalQuantity, openCart } = useCart()
-const { isAuthenticated } = useCustomer()
 
 const links = [
   { label: 'Shop', to: '/collections/all' },
@@ -43,10 +41,6 @@ function close() {
 function onKeydown(e) {
   if (e.key === 'Escape' && open.value) close()
 }
-
-function onCartClick() {
-  openCart()
-}
 </script>
 
 <template>
@@ -77,22 +71,11 @@ function onCartClick() {
       </nav>
 
       <div class="flex items-center gap-4 md:gap-6">
-        <router-link
-          :to="isAuthenticated ? '/account' : '/account/login'"
-          class="hidden md:inline-flex items-center justify-center w-10 h-10 text-ink hover:text-purple transition-colors"
-          :aria-label="isAuthenticated ? 'Your account' : 'Sign in'"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21c0-4 3.5-7 8-7s8 3 8 7" />
-          </svg>
-        </router-link>
-
         <button
           type="button"
           class="relative inline-flex items-center justify-center w-10 h-10 text-ink hover:text-purple transition-colors"
           aria-label="Open cart"
-          @click="onCartClick"
+          @click="openCart"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 7h14l-1.4 11.2A2 2 0 0 1 15.6 20H8.4a2 2 0 0 1-2-1.8L5 7z" />
@@ -147,13 +130,6 @@ function onCartClick() {
             @click="close"
           >
             {{ link.label }}
-          </router-link>
-          <router-link
-            :to="isAuthenticated ? '/account' : '/account/login'"
-            class="py-4 font-serif text-2xl text-ink border-b border-border hover:text-purple transition-colors"
-            @click="close"
-          >
-            {{ isAuthenticated ? 'Account' : 'Sign in' }}
           </router-link>
         </nav>
       </div>

@@ -3,9 +3,8 @@
 ## Required for "real site" — do these first
 
 - [ ] **Shopify Storefront API credentials** — see [SHOPIFY_SETUP.md](./SHOPIFY_SETUP.md). Without these, the site shows placeholder products.
-- [ ] **Shopify Customer Account API credentials** — see SHOPIFY_SETUP.md. Without these, sign-in is disabled.
-- [ ] **Custom domain checkout** — point a custom domain at Shopify so checkout URLs use the brand domain, not `*.myshopify.com`.
-- [ ] **Newsletter ESP** — wire the footer + about page newsletter forms to Klaviyo / Mailchimp / Shopify Email. Currently logs to console (`SiteFooter.vue` `onSubscribe()`).
+- [ ] **Custom domain checkout** — keep the domain configured in the Headless app's storefront so checkout URLs land on the brand domain, not `*.myshopify.com`.
+- [ ] **Newsletter ESP** — wire the footer newsletter form to Klaviyo / Mailchimp / Shopify Email. Currently logs to console (`SiteFooter.vue` `onSubscribe()`).
 
 ## Visual content
 

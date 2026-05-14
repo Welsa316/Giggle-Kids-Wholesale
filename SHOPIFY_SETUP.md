@@ -1,85 +1,70 @@
 # Shopify Setup
 
-This site is a custom Vue storefront for a Shopify backend. Products, collections, cart, checkout, and customer accounts all live in Shopify — this frontend talks to Shopify via two APIs:
+Custom Vue storefront for the Giggle Kids Shopify store. Products, collections, cart, and checkout all live in Shopify — this frontend talks to Shopify's **Storefront API** to render the catalog and drive the cart, then hands off to Shopify-hosted checkout.
 
-- **Storefront API** (public) — fetches products, collections, drives the cart
-- **Customer Account API** (OAuth, public client) — sign in, view orders
+Customers check out as guests (no account needed). Order confirmation + shipping updates go via Shopify's transactional emails.
 
-The site renders gracefully without either configured (placeholder products show; cart and account show "not configured" states), so you can see the UI before wiring anything up.
+The site renders gracefully without Shopify configured (placeholder products show; cart says "not configured"), so you can preview the UI before wiring credentials.
 
 ---
 
-## Step 1 — Storefront API (15 min)
+## Setup (15 min)
 
-Powers product browsing and the cart.
+### 1. Install the Shopify Headless app
 
-1. **Open Shopify admin** → `Settings` → `Apps and sales channels` → `Develop apps`
-2. Click **Create an app** (top right). Name it something like `Custom Storefront`.
-3. Click **Configure Storefront API scopes**. Enable at minimum:
-   - `unauthenticated_read_product_listings`
-   - `unauthenticated_read_product_inventory`
-   - `unauthenticated_write_checkouts`
-   - `unauthenticated_read_checkouts`
-   - `unauthenticated_read_content`
-   - `unauthenticated_read_collection_listings`
-4. Click **Save**.
-5. Click **Install app** (top right). Confirm.
-6. Open the **API credentials** tab. Copy the **Storefront API access token** — this is the public token.
-7. Note your **store domain** (e.g. `giggle-kids.myshopify.com`).
+Shopify admin → **Settings** → **Apps and sales channels** → **Shopify App Store** → search **"Headless"** → install the official Shopify-built one.
 
-Add to `.env.local` in the project root:
+It's free, first-party, no charge.
+
+### 2. Create a storefront in the Headless app
+
+1. Open the Headless app
+2. Click **Add storefront** → name it (e.g. `Web` or `Custom Vue`)
+3. The storefront entry has a **Storefront API** section
+
+### 3. Grab Storefront API credentials
+
+In your storefront → **Storefront API** section:
+
+- Copy the **Public access token**
+- Note your store domain (e.g. `giggle-kids.myshopify.com`)
+
+The Headless app pre-configures the right scopes (product read, cart, checkout). No extra config needed.
+
+### 4. Drop into `.env.local`
+
+In the project root:
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
 
 ```
 VITE_SHOPIFY_STORE_DOMAIN=giggle-kids.myshopify.com
-VITE_SHOPIFY_STOREFRONT_TOKEN=<paste the storefront token here>
+VITE_SHOPIFY_STOREFRONT_TOKEN=<paste the public token>
+VITE_SHOPIFY_API_VERSION=2024-10
 ```
 
-Restart the dev server (`npm run dev`). Real products + collections should now appear.
+### 5. Restart dev server
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:5173` — real products + collections appear within a second or two. "Add to bag" works. "Checkout" redirects to Shopify-hosted checkout.
 
 ---
 
-## Step 2 — Customer Account API (20 min)
+## Custom checkout domain (optional)
 
-Powers sign-in, order history, account dashboard. Uses OAuth 2.0 with PKCE — no client secret needed (public client).
+By default, Shopify checkout redirects to `*.myshopify.com/checkouts/...`. To keep checkout on the brand domain:
 
-1. **Shopify admin** → `Settings` → `Customer accounts` → `Headless`
-2. Toggle **New customer accounts** on if it isn't already.
-3. Scroll to **Customer Account API** and click **Manage**.
-4. Note the **Shop ID** at the top — a numeric value like `12345678`.
-5. Under **Application setup** → **Storefront** → add an OAuth client:
-   - **Application type**: Public (PKCE)
-   - **Redirect URIs**: add both
-     - `https://localhost:5173/account/callback` (local dev)
-     - `https://yourdomain.com/account/callback` (production — add when you deploy)
-   - **Scopes**: `openid`, `email`, `customer-account-api:full`
-6. Save. Copy the **Client ID** Shopify generates.
+1. Shopify admin → **Settings** → **Domains** → ensure your custom domain is set as the primary
+2. The Storefront API will return checkout URLs on the primary domain automatically
 
-Add to `.env.local`:
-
-```
-VITE_SHOPIFY_SHOP_ID=12345678
-VITE_SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID=<paste the client id>
-VITE_SHOPIFY_CUSTOMER_ACCOUNT_REDIRECT_URI=https://localhost:5173/account/callback
-```
-
-Restart dev server. Visit `/account/login` — clicking the button should redirect to Shopify's hosted login screen, then back to `/account/callback` and into `/account` showing the customer info + order history.
-
-> **Note:** Shopify requires HTTPS for the OAuth callback URL — even on localhost.
-> This project uses [`vite-plugin-mkcert`](https://github.com/liuweiGL/vite-plugin-mkcert)
-> to auto-generate a locally-trusted SSL cert. The dev server runs on
-> `https://localhost:5173` (not `http://`). First run installs a local CA in your
-> system trust store; subsequent runs are seamless.
-
-For production: change the redirect URI to your live domain and re-add it to the Shopify allowlist in the Customer Account API setup page.
-
----
-
-## Step 3 — Custom domain checkout (optional but recommended)
-
-By default, Shopify checkout redirects to `*.myshopify.com/checkouts/...` which can break the brand feel. To use your own domain:
-
-1. Shopify admin → `Settings` → `Domains` → ensure your custom domain is set as the primary.
-2. The Storefront API will return checkout URLs on the primary domain automatically.
+For full custom domain checkout (`checkout.gigglekids.com`), see Shopify's docs on [primary domains for headless storefronts](https://shopify.dev/docs/storefronts/headless/building-with-the-customer-account-api/getting-started).
 
 ---
 
@@ -88,11 +73,9 @@ By default, Shopify checkout redirects to `*.myshopify.com/checkouts/...` which 
 | What | File |
 |------|------|
 | Storefront API client + GraphQL queries | `src/lib/shopify.js` |
-| Customer Account API + OAuth (PKCE) | `src/lib/shopifyAccount.js` |
 | Cart state (single shared instance) | `src/composables/useCart.js` |
 | Product / collection fetching | `src/composables/useProducts.js` |
-| Customer auth state | `src/composables/useCustomer.js` |
-| Routing (`/`, `/products/:handle`, etc.) | `src/router/index.js` |
+| Routing | `src/router/index.js` |
 | Cart slide-out drawer | `src/components/cart/CartDrawer.vue` |
 | Product card | `src/components/ui/ProductCard.vue` |
 
@@ -105,26 +88,23 @@ By default, Shopify checkout redirects to `*.myshopify.com/checkouts/...` which 
 | `/products/:handle` | Product detail page |
 | `/cart` | Cart page |
 | `/about` | About / studio |
-| `/account/login` | Sign-in (redirects to Shopify) |
-| `/account/callback` | OAuth return URL (handles code exchange) |
-| `/account` | Dashboard + order history |
 
 ## Cart flow
 
-1. User clicks "Add to bag" on a product → `useCart().addLine(variantId, qty)`
+1. Customer clicks "Add to bag" on a product → `useCart().addLine(variantId, qty)`
 2. If no cart exists yet, `cartCreate` mutation runs first
 3. `cartLinesAdd` mutation runs, returns updated cart
 4. Cart drawer auto-opens
-5. User clicks "Checkout" → redirects to Shopify-hosted checkout URL
-6. Shopify handles payment, taxes, shipping, fulfillment
+5. Customer clicks "Checkout" → redirects to Shopify-hosted checkout URL
+6. Shopify handles payment, taxes, shipping, fulfillment, and emails
 
-The cart ID persists in `localStorage` so it survives reloads. Cart expires server-side after ~10 days of inactivity — we handle that gracefully (clear and start fresh).
+The cart ID persists in `localStorage` so it survives reloads. Cart expires server-side after ~10 days of inactivity — handled gracefully (cleared and a fresh cart created on next add).
 
 ## Things to add later
 
 - **Product reviews** — wire Judge.me / Yotpo / Stamped widgets into the product page
 - **Search** — Shopify Storefront API has a `predictiveSearch` query
-- **Variant images** — the product page currently shows the first image; could show variant.image when a variant is selected
+- **Variant images** — currently shows the first image on the product page; could swap to `variant.image` when a variant is selected
 - **Filters / sort on collection page** — Storefront API supports filter args
 - **Wishlist** — pure client-side `localStorage` is fine for v1
-- **Address / payment method management** — extend AccountView with Customer Account API mutations
+- **Customer accounts** — if you ever want logged-in accounts later, the Customer Account API + OAuth (PKCE) would slot in via a separate `src/lib/shopifyAccount.js` module
