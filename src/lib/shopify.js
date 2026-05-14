@@ -80,12 +80,24 @@ export async function shopifyRequest(query, variables = {}, { timeoutMs = DEFAUL
   }
 
   const { data, errors } = result
-  if (errors) {
+
+  // Shopify can return BOTH data and errors at once — typically when one field
+  // is permission-gated but the rest of the query succeeded. Throwing on any
+  // errors here would discard a perfectly usable product/cart payload. Instead,
+  // log the partial-error and return the data we got. Only throw when there's
+  // truly no data to use.
+  if (errors && !data) {
     const msg = Array.isArray(errors.graphQLErrors)
       ? errors.graphQLErrors.map((e) => e.message).join('; ')
       : errors.message || 'Shopify request failed'
     throw new Error(msg)
   }
+
+  if (errors && import.meta.env.DEV) {
+    const list = Array.isArray(errors.graphQLErrors) ? errors.graphQLErrors : (errors.message ? [errors] : [])
+    console.warn('[Shopify] partial response — some fields denied or null:', list)
+  }
+
   return data
 }
 
@@ -105,11 +117,15 @@ const IMAGE_FIELDS = `
   height
 `
 
+// quantityAvailable removed — requires the unauthenticated_read_product_inventory
+// scope which isn't enabled on the Headless app by default. Inventory state
+// is captured by availableForSale (boolean), which is enough for the UI.
+// Re-add quantityAvailable if you ever need exact stock counts AND enable that
+// scope in the Headless app's Storefront API settings.
 const VARIANT_FIELDS = `
   id
   title
   availableForSale
-  quantityAvailable
   price { ${MONEY_FIELDS} }
   compareAtPrice { ${MONEY_FIELDS} }
   selectedOptions { name value }

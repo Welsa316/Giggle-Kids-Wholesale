@@ -6,6 +6,7 @@ import { useCollections } from '../../composables/useProducts.js'
 const open = ref(false)
 const scrolled = ref(false)
 const hamburgerBtn = ref(null)
+const mobilePanelRef = ref(null)
 
 const { totalQuantity, openCart } = useCart()
 const { collections, fetchCollections } = useCollections()
@@ -33,6 +34,7 @@ function onScroll() {
 
 onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true })
+  document.addEventListener('keydown', onKeydown)
   onScroll()
   fetchCollections({ first: 8 })
 })
@@ -40,6 +42,7 @@ onMounted(() => {
 onUnmounted(() => {
   document.body.style.overflow = ''
   window.removeEventListener('scroll', onScroll)
+  document.removeEventListener('keydown', onKeydown)
 })
 
 function close() {
@@ -49,7 +52,26 @@ function close() {
 }
 
 function onKeydown(e) {
-  if (e.key === 'Escape' && open.value) close()
+  if (!open.value) return
+  if (e.key === 'Escape') {
+    close()
+    return
+  }
+  if (e.key !== 'Tab') return
+  // Trap focus inside the open mobile nav
+  const focusable = mobilePanelRef.value?.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )
+  if (!focusable || focusable.length === 0) return
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault()
+    last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault()
+    first.focus()
+  }
 }
 </script>
 
@@ -57,7 +79,6 @@ function onKeydown(e) {
   <header
     class="sticky top-0 z-40 transition-all duration-500 ease-editorial"
     :class="scrolled ? 'bg-cream/92 backdrop-blur-lg border-b border-border' : 'bg-cream/0 backdrop-blur-0 border-b border-transparent'"
-    @keydown="onKeydown"
   >
     <div class="container-page flex items-center justify-between h-24 md:h-28">
       <router-link to="/" class="flex flex-col items-start leading-none gap-2" aria-label="Giggle Kids — Home">
@@ -127,6 +148,7 @@ function onKeydown(e) {
     >
       <div
         v-if="open"
+        ref="mobilePanelRef"
         id="mobile-nav"
         class="lg:hidden bg-cream border-t border-border"
       >

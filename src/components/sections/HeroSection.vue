@@ -42,7 +42,7 @@ function onImgError(e) {
     </router-link>
 
     <div class="container-page py-12 -mt-6 relative z-10">
-      <h1 class="font-serif text-ink leading-[1.0] tracking-[-0.02em] font-medium mb-7" style="font-size: clamp(2.5rem, 12vw, 3.75rem);">
+      <h1 class="font-serif text-ink leading-[1.04] tracking-[-0.02em] font-medium mb-7" style="font-size: clamp(2.5rem, 12vw, 3.75rem);">
         <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Made in</span>
         <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">New Orleans,</span>
         <span class="block hero-anim hero-anim-fade-up pl-[12%] italic text-purple" style="animation-delay: 560ms;">for keeping.</span>
@@ -102,7 +102,7 @@ function onImgError(e) {
     <div class="relative z-10 h-full flex items-center">
       <div class="container-page w-full">
         <div class="max-w-[560px] flex flex-col gap-8 md:gap-10">
-          <h1 class="font-serif text-ink leading-[0.98] tracking-[-0.025em] font-medium" style="font-size: clamp(2.75rem, 6.5vw, 5.25rem);">
+          <h1 class="font-serif text-ink leading-[1.04] tracking-[-0.025em] font-medium" style="font-size: clamp(2.75rem, 6.5vw, 5.25rem);">
             <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Made in</span>
             <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">New Orleans,</span>
             <span class="block hero-anim hero-anim-fade-up pl-[12%] italic text-purple" style="animation-delay: 560ms;">for keeping.</span>
