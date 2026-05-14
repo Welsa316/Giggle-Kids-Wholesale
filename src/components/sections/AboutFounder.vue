@@ -1,13 +1,13 @@
 <script setup>
 // Brand-voice section. Speaks as the studio, not as a founder.
-// No founder name, no portrait, no fake studio photography.
-// TODO: when real photography is available, restore a two-column layout
-// with a process/craft detail photo on the right.
+// Intentionally evergreen — the catalog will broaden over time
+// (clothing, plushies, books, souvenirs), so the framing here
+// avoids naming specific product types.
 
 const facts = [
   { label: 'Studio', value: 'New Orleans, LA' },
-  { label: 'Smocking', value: 'By hand' },
-  { label: 'Themes', value: 'Mardi Gras + Crawfish' },
+  { label: 'Made', value: 'By hand' },
+  { label: 'Founded', value: '2026' },
 ]
 </script>
 
@@ -21,16 +21,16 @@ const facts = [
         </div>
 
         <h2 class="font-serif text-h1 text-ink">
-          Mardi Gras + crawfish,<br />
-          made in New Orleans.
+          A small studio<br />
+          in New Orleans.
         </h2>
 
         <div class="flex flex-col gap-5 text-base md:text-lg text-ink-muted leading-relaxed font-light">
           <p>
-            Giggle Kids is a small New Orleans label making seasonal keepsakes for the little ones — Mardi Gras and crawfish prints in soft bamboo, plus hand-smocked dresses, bubbles, and shorts sets that read as heirlooms the moment they're stitched.
+            Giggle Kids is a small New Orleans label making heirloom keepsakes for the little ones &mdash; designed locally, finished by hand, and built to be passed down.
           </p>
           <p>
-            Everything is made in New Orleans. The smocking is done by hand. Every piece is checked before it ships.
+            Every piece is checked before it ships. Most are sewn or assembled in-studio; some are sourced from makers we trust. We grow the catalog slowly and keep the standards tight.
           </p>
         </div>
 

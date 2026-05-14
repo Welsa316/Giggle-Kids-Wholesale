@@ -1,26 +1,29 @@
 <script setup>
 import SectionHeader from '../ui/SectionHeader.vue'
 
+// Evergreen value props — not tied to specific product categories.
+// As the catalog broadens (clothing → plushies → books → souvenirs)
+// these still hold.
 const valueProps = [
   {
     number: '01',
     title: 'Made in New Orleans',
-    body: 'Designed, sewn, and finished in our small New Orleans studio — never outsourced.',
+    body: 'Designed locally and finished by hand in our New Orleans studio.',
   },
   {
     number: '02',
-    title: 'Two ways to make',
-    body: 'Soft bamboo prints for everyday and parade season; hand-smocked dresses, bubbles, and shorts sets for the keepsake pieces.',
+    title: 'Built to be kept',
+    body: 'Reinforced seams, finished hems, and materials chosen to survive a younger sibling.',
   },
   {
     number: '03',
-    title: 'Louisiana motifs',
-    body: 'Mardi Gras and crawfish prints you won\'t find on the rack — designed for the families who actually live them.',
+    title: 'A small catalog',
+    body: 'We grow it slowly so every piece earns its place. Quality over quantity.',
   },
   {
     number: '04',
-    title: 'Built to be passed down',
-    body: 'Reinforced seams, finished hems, and fabrics that survive a younger sibling.',
+    title: 'Checked before it ships',
+    body: 'Every order inspected by hand. If it isn\'t right, it doesn\'t go out.',
   },
 ]
 </script>
@@ -30,13 +33,13 @@ const valueProps = [
     <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-16 md:mb-24">
       <div class="lg:col-span-5">
         <SectionHeader
-          eyebrow="What we make"
-          title="Boutique-grade. Built to keep."
+          eyebrow="What we stand for"
+          title="Made well. Made to keep."
         />
       </div>
       <div class="lg:col-span-6 lg:col-start-7 flex items-end" data-reveal style="--reveal-delay: 150ms">
         <p class="text-base md:text-lg text-ink-muted leading-relaxed font-light max-w-prose">
-          Four reasons families come back season after season — Mardi Gras, crawfish boil weekends, and the in-between days when a soft bamboo print just feels right.
+          Four things that hold true for everything we make &mdash; and that won't change as the catalog grows.
         </p>
       </div>
     </div>

@@ -65,13 +65,13 @@ const photos = {
 
     <div class="container-page py-12 -mt-8 relative z-10">
       <h1 class="font-serif text-ink leading-[1.0] tracking-[-0.02em] font-medium mb-7" style="font-size: clamp(2.5rem, 12vw, 3.75rem);">
-        <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Mardi Gras</span>
-        <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">+ crawfish,</span>
+        <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Made in</span>
+        <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">New Orleans,</span>
         <span class="block hero-anim hero-anim-fade-up pl-[12%] italic text-purple" style="animation-delay: 560ms;">for keeping.</span>
       </h1>
 
       <p class="text-base text-ink-muted leading-relaxed font-light mb-8 hero-anim hero-anim-fade-up max-w-md" style="animation-delay: 760ms;">
-        Hand-smocked dresses, bamboo prints, and parade-day keepsakes &mdash; made in New Orleans for the little ones.
+        Heirloom keepsakes for the little ones &mdash; designed and made in our New Orleans studio.
       </p>
 
       <div class="flex flex-wrap items-center gap-x-7 gap-y-4 hero-anim hero-anim-fade-up" style="animation-delay: 920ms;">
@@ -152,14 +152,14 @@ const photos = {
       <div class="container-page w-full">
         <div class="max-w-[640px] flex flex-col gap-8 md:gap-10">
           <h1 class="font-serif text-ink leading-[0.98] tracking-[-0.025em] font-medium" style="font-size: clamp(2.75rem, 7vw, 5.75rem);">
-            <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Mardi Gras</span>
-            <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">+ crawfish,</span>
+            <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Made in</span>
+            <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">New Orleans,</span>
             <span class="block hero-anim hero-anim-fade-up pl-[12%] italic text-purple" style="animation-delay: 560ms;">for keeping.</span>
           </h1>
 
           <div class="hero-anim hero-anim-fade-up max-w-md" style="animation-delay: 760ms;">
             <p class="text-base md:text-lg text-ink-muted leading-relaxed font-light">
-              Hand-smocked dresses, bamboo prints, and parade-day keepsakes &mdash; made in New Orleans for the little ones.
+              Heirloom keepsakes for the little ones &mdash; designed and made in our New Orleans studio.
             </p>
           </div>
 

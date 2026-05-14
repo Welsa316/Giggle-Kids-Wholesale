@@ -17,9 +17,17 @@ import { createStorefrontApiClient } from '@shopify/storefront-api-client'
 
 const STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN
 const STOREFRONT_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN
-const API_VERSION = import.meta.env.VITE_SHOPIFY_API_VERSION || '2024-10'
+const API_VERSION = import.meta.env.VITE_SHOPIFY_API_VERSION || '2026-04'
 
 export const isShopifyConfigured = Boolean(STORE_DOMAIN && STOREFRONT_TOKEN)
+
+// The Storefront API base URL is `https://{storeDomain}/api/{apiVersion}/graphql.json`.
+// For that to resolve, storeDomain MUST be the `.myshopify.com` subdomain
+// (or a custom domain that has been DNS-pointed at Shopify). A custom
+// domain like `gigglekidsllc.com` that points at Vercel/Railway will
+// return 503 from your own server — not from Shopify.
+export const shopifyDomainLooksValid =
+  !STORE_DOMAIN || STORE_DOMAIN.endsWith('.myshopify.com')
 
 export const shopifyClient = isShopifyConfigured
   ? createStorefrontApiClient({
@@ -33,6 +41,15 @@ if (!isShopifyConfigured && import.meta.env.DEV) {
   console.warn(
     '[Shopify] Not configured. Add VITE_SHOPIFY_STORE_DOMAIN and ' +
       'VITE_SHOPIFY_STOREFRONT_TOKEN to .env.local. See SHOPIFY_SETUP.md.'
+  )
+}
+
+if (isShopifyConfigured && !shopifyDomainLooksValid) {
+  console.error(
+    `[Shopify] VITE_SHOPIFY_STORE_DOMAIN is set to "${STORE_DOMAIN}" — this should ` +
+      'be your *.myshopify.com subdomain (e.g. giggle-kids.myshopify.com), NOT your ' +
+      'custom domain. Storefront API requests will 503 against your own host. ' +
+      'See SHOPIFY_SETUP.md.'
   )
 }
 

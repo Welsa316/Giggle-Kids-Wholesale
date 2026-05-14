@@ -42,10 +42,21 @@ cp .env.example .env.local
 Edit `.env.local`:
 
 ```
-VITE_SHOPIFY_STORE_DOMAIN=giggle-kids.myshopify.com
+VITE_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
 VITE_SHOPIFY_STOREFRONT_TOKEN=<paste the public token>
-VITE_SHOPIFY_API_VERSION=2024-10
+VITE_SHOPIFY_API_VERSION=2026-04
 ```
+
+> **CRITICAL:** `VITE_SHOPIFY_STORE_DOMAIN` MUST be the `.myshopify.com`
+> subdomain (e.g. `giggle-kids.myshopify.com`), NOT your custom domain
+> (e.g. `gigglekidsllc.com`). The Storefront API constructs the URL as
+> `https://{domain}/api/{version}/graphql.json` — if you give it your
+> custom domain, requests hit your Vercel/Railway server (not Shopify)
+> and silently 503. The site will show placeholders forever and the
+> banner will tell you exactly this.
+>
+> Find the right domain in Shopify admin → Settings → Domains. The
+> primary `.myshopify.com` URL is at the top of the page.
 
 ### 5. Restart dev server
 
