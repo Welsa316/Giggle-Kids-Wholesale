@@ -5,6 +5,7 @@ import { useCollections } from '../../composables/useProducts.js'
 
 const open = ref(false)
 const scrolled = ref(false)
+const hamburgerBtn = ref(null)
 
 const { totalQuantity, openCart } = useCart()
 const { collections, fetchCollections } = useCollections()
@@ -43,6 +44,8 @@ onUnmounted(() => {
 
 function close() {
   open.value = false
+  // Restore focus to the hamburger so keyboard users land back where they started.
+  hamburgerBtn.value?.focus?.()
 }
 
 function onKeydown(e) {
@@ -98,6 +101,7 @@ function onKeydown(e) {
         </button>
 
         <button
+          ref="hamburgerBtn"
           type="button"
           class="lg:hidden p-2 -mr-2 text-ink"
           :aria-expanded="open"

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@shopify/storefront-api-client": "^1.0.10",
-    "pinia": "^3.0.4",
+    "dompurify": "^3.4.3",
     "vue": "^3.4.0",
     "vue-router": "^5.0.7"
   },

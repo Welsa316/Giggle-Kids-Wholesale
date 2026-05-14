@@ -2,13 +2,15 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 // Subtle scroll-driven parallax — photos drift opposite to scroll so the
-// cluster feels alive without being gimmicky.
+// cluster feels alive without being gimmicky. Respect prefers-reduced-motion.
 const offsetMain = ref(0)
 const offsetSecondary = ref(0)
 const offsetDetail = ref(0)
 let raf = 0
+let reducedMotion = false
 
 function onScroll() {
+  if (reducedMotion) return
   if (raf) return
   raf = requestAnimationFrame(() => {
     raf = 0
@@ -21,6 +23,9 @@ function onScroll() {
 }
 
 onMounted(() => {
+  const mq = window.matchMedia?.('(prefers-reduced-motion: reduce)')
+  reducedMotion = !!mq?.matches
+  mq?.addEventListener?.('change', (e) => { reducedMotion = e.matches })
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
 })
