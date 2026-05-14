@@ -12,7 +12,7 @@ const visible = ref(true)
     aria-label="Site announcement"
   >
     <p class="pr-8">
-      Now booking <span class="text-cream/80">Fall 2026</span> · Line sheets available
+      Complimentary shipping on orders over <span class="text-cream/85">$75</span>
     </p>
     <button
       type="button"

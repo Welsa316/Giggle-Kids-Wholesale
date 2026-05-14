@@ -6,7 +6,7 @@ const subscribed = ref(false)
 
 function onSubscribe() {
   if (!email.value.trim()) return
-  // TODO: wire to ESP (Mailchimp, Klaviyo, etc.) via backend or direct API
+  // TODO: wire to ESP (Klaviyo / Mailchimp / Shopify Email) — POST email to API
   console.log('[Newsletter] subscribe:', email.value)
   subscribed.value = true
   email.value = ''
@@ -18,16 +18,15 @@ const year = new Date().getFullYear()
 <template>
   <footer class="bg-ink text-cream relative overflow-hidden">
     <div class="container-page pt-section md:pt-section-lg pb-12">
-      <!-- Top: oversized brand mark + newsletter -->
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 pb-16 md:pb-20 border-b border-cream/10">
         <div class="lg:col-span-7 flex flex-col gap-7" data-reveal>
           <div>
             <p class="text-[10px] uppercase tracking-[0.32em] text-cream/50 mb-3">Est. 2012</p>
-            <a href="#top" class="font-serif text-5xl md:text-6xl lg:text-7xl text-cream font-medium tracking-tight leading-none inline-block">
-              Giggle <span class="italic text-cream/85">Kids</span>
-            </a>
+            <router-link to="/" class="font-serif text-5xl md:text-6xl lg:text-7xl text-cream font-medium tracking-tight leading-none inline-block">
+              Giggle Kids
+            </router-link>
             <p class="font-serif italic text-cream/70 text-lg mt-4 max-w-md leading-relaxed">
-              Hand-smocked children's clothing, made in Baton Rouge, Louisiana since 2012.
+              Hand-smocked children's clothing, made in New Orleans, Louisiana since 2012.
             </p>
           </div>
         </div>
@@ -38,7 +37,7 @@ const year = new Date().getFullYear()
               New collection notices
             </p>
             <p class="font-serif italic text-cream/70 text-base">
-              Quarterly drops · No filler.
+              Quarterly drops &middot; No filler.
             </p>
           </div>
 
@@ -48,7 +47,7 @@ const year = new Date().getFullYear()
               id="newsletter"
               v-model="email"
               type="email"
-              placeholder="you@boutique.com"
+              placeholder="you@example.com"
               autocomplete="email"
               class="flex-1 bg-transparent border-0 border-b-2 border-cream/60 pb-2 text-base text-cream placeholder:text-cream/55 font-serif focus:outline-none focus:border-cream"
             />
@@ -65,34 +64,36 @@ const year = new Date().getFullYear()
         </div>
       </div>
 
-      <!-- Middle: 4 columns of footer nav -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-16 md:py-20 border-b border-cream/10">
         <div>
-          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Wholesale</h4>
+          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Shop</h4>
           <ul class="flex flex-col gap-3 text-sm">
-            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Shop on Faire</a></li>
-            <li><a href="#inquiry" class="text-cream/85 hover:text-cream transition-colors">Request line sheet</a></li>
-            <li><a href="#how-to-order" class="text-cream/85 hover:text-cream transition-colors">How to order</a></li>
-            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Wholesale terms</a></li>
+            <li><router-link to="/collections/all" class="text-cream/85 hover:text-cream transition-colors">All clothing</router-link></li>
+            <li><router-link to="/collections/new-arrivals" class="text-cream/85 hover:text-cream transition-colors">New arrivals</router-link></li>
+            <li><router-link to="/collections/christening" class="text-cream/85 hover:text-cream transition-colors">Christening</router-link></li>
+            <li><router-link to="/collections/mardi-gras" class="text-cream/85 hover:text-cream transition-colors">Mardi Gras</router-link></li>
+            <li><router-link to="/collections/sale" class="text-cream/85 hover:text-cream transition-colors">Sale</router-link></li>
           </ul>
         </div>
 
         <div>
-          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">The brand</h4>
+          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Help</h4>
           <ul class="flex flex-col gap-3 text-sm">
-            <li><a href="#about" class="text-cream/85 hover:text-cream transition-colors">Our story</a></li>
-            <li><a href="#collections" class="text-cream/85 hover:text-cream transition-colors">Collections</a></li>
-            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Lookbook</a></li>
-            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Press</a></li>
+            <li><router-link to="/account" class="text-cream/85 hover:text-cream transition-colors">My account</router-link></li>
+            <li><router-link to="/account/orders" class="text-cream/85 hover:text-cream transition-colors">Order status</router-link></li>
+            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Shipping</a></li>
+            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Returns</a></li>
+            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Sizing</a></li>
           </ul>
         </div>
 
         <div>
           <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Studio</h4>
           <ul class="flex flex-col gap-3 text-sm text-cream/85 font-serif">
+            <!-- TODO: replace with real studio address -->
             <li class="leading-relaxed">
-              123 Magnolia Lane<br />
-              Baton Rouge, LA 70802
+              Magazine Street<br />
+              New Orleans, LA 70115
             </li>
             <li class="text-cream/55 italic text-xs mt-1">By appointment only</li>
           </ul>
@@ -108,11 +109,11 @@ const year = new Date().getFullYear()
               </a>
             </li>
             <li>
-              <a href="tel:+12255550100" class="hover:text-cream transition-colors">
-                (225) 555-0100
+              <a href="tel:+15045550100" class="hover:text-cream transition-colors">
+                (504) 555-0100
               </a>
             </li>
-            <li class="text-cream/55 italic text-xs">Mon – Fri, 9 AM – 5 PM CT</li>
+            <li class="text-cream/55 italic text-xs">Mon &ndash; Fri, 9 AM &ndash; 5 PM CT</li>
           </ul>
 
           <div class="flex items-center gap-3 mt-6">
@@ -150,9 +151,8 @@ const year = new Date().getFullYear()
         </div>
       </div>
 
-      <!-- Bottom row -->
       <div class="pt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-[10px] uppercase tracking-[0.22em] text-cream/45">
-        <p>© {{ year }} Giggle Kids · Hand-stitched in Louisiana</p>
+        <p>© {{ year }} Giggle Kids · Hand-stitched in New Orleans</p>
         <ul class="flex gap-6">
           <li><a href="#" class="hover:text-cream transition-colors">Privacy</a></li>
           <li><a href="#" class="hover:text-cream transition-colors">Terms</a></li>

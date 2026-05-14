@@ -1,26 +1,42 @@
 <script setup>
 import SectionHeader from '../ui/SectionHeader.vue'
-import { valueProps } from '../../data/valueProps.js'
+
+const valueProps = [
+  {
+    number: '01',
+    title: 'Hand-smocked, every piece',
+    body: 'Sewn by a small team of New Orleans smockers — never machine-finished, never outsourced.',
+  },
+  {
+    number: '02',
+    title: 'Heirloom-grade construction',
+    body: 'Reinforced seams, finished hems, and fabrics that survive being passed down to a younger sibling.',
+  },
+  {
+    number: '03',
+    title: 'Made-here detail',
+    body: 'Mardi Gras, crawfish, fleur de lis, seersucker — Louisiana motifs you won\'t find on the rack.',
+  },
+  {
+    number: '04',
+    title: 'Ships within 48 hours',
+    body: 'Stocked and shipped from our New Orleans studio. Complimentary shipping over $75.',
+  },
+]
 </script>
 
 <template>
-  <section class="container-page py-section-lg md:py-section-xl relative" aria-label="Why stock Giggle Kids">
+  <section class="container-page py-section-lg md:py-section-xl relative" aria-label="What we make">
     <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-16 md:mb-24">
       <div class="lg:col-span-5">
         <SectionHeader
-          eyebrow="Why stock us"
-          title=""
-          description=""
-        >
-          <template #title>
-            Boutique-built.<br />
-            Faire-friendly.
-          </template>
-        </SectionHeader>
+          eyebrow="What we make"
+          title="Boutique-grade. Built to keep."
+        />
       </div>
       <div class="lg:col-span-6 lg:col-start-7 flex items-end" data-reveal style="--reveal-delay: 150ms">
         <p class="text-base md:text-lg text-ink-muted leading-relaxed font-light max-w-prose">
-          Four reasons buyers come back season after season — and why the same boutiques have been with us since the beginning.
+          Four reasons our customers come back season after season — christening, Mardi Gras, Easter, and the seasonal staples in between.
         </p>
       </div>
     </div>
@@ -38,6 +54,5 @@ import { valueProps } from '../../data/valueProps.js'
         <p class="text-base text-ink-muted leading-relaxed font-light">{{ prop.body }}</p>
       </li>
     </ul>
-
   </section>
 </template>

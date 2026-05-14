@@ -1,16 +1,8 @@
 <script setup>
 import AnnouncementBar from './components/sections/AnnouncementBar.vue'
 import SiteNav from './components/sections/SiteNav.vue'
-import HeroSection from './components/sections/HeroSection.vue'
-import WholesaleTerms from './components/sections/WholesaleTerms.vue'
-import ValueProps from './components/sections/ValueProps.vue'
-import FeaturedCollections from './components/sections/FeaturedCollections.vue'
-import BestSellers from './components/sections/BestSellers.vue'
-import TrustSignals from './components/sections/TrustSignals.vue'
-import AboutFounder from './components/sections/AboutFounder.vue'
-import HowToOrder from './components/sections/HowToOrder.vue'
-import InquiryForm from './components/sections/InquiryForm.vue'
 import SiteFooter from './components/sections/SiteFooter.vue'
+import CartDrawer from './components/cart/CartDrawer.vue'
 import { useReveal } from './composables/useReveal.js'
 
 useReveal()
@@ -28,16 +20,10 @@ useReveal()
   <SiteNav />
 
   <main id="main">
-    <HeroSection />
-    <WholesaleTerms />
-    <ValueProps />
-    <FeaturedCollections />
-    <BestSellers />
-    <TrustSignals />
-    <AboutFounder />
-    <HowToOrder />
-    <InquiryForm />
+    <router-view />
   </main>
 
   <SiteFooter />
+
+  <CartDrawer />
 </template>

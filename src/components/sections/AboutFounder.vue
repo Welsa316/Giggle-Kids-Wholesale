@@ -1,14 +1,10 @@
 <script setup>
-// Brand-voice section. Intentionally NOT personalized — speaks as the studio,
-// not as a founder. No founder name, no portrait, no signature.
-//
-// Photo treatment: process/craft detail (smocking close-up, fabric on table) —
-// shows the work, not the worker. Like Bottega Veneta's leather details or
-// Aesop's ingredient close-ups.
+// Brand-voice section. Speaks as the studio, not as a founder.
+// Photo treatment: process/craft detail (smocking close-up) — shows the work.
 
 const facts = [
   { label: 'Founded', value: '2012' },
-  { label: 'Studio', value: 'Baton Rouge, LA' },
+  { label: 'Studio', value: 'New Orleans, LA' },
   { label: 'Smocking', value: 'By hand' },
   { label: 'Sizes', value: 'Newborn – 6T' },
 ]
@@ -21,20 +17,20 @@ const facts = [
         <div class="lg:col-span-6 order-2 lg:order-1 flex flex-col gap-8" data-reveal>
           <div class="flex items-center gap-4">
             <span aria-hidden="true" class="block w-10 h-px bg-purple/60" />
-            <p class="eyebrow">The atelier</p>
+            <p class="eyebrow">The studio</p>
           </div>
 
           <h2 class="font-serif text-h1 text-ink">
             A craft tradition,<br />
-            hand-smocked in Louisiana.
+            hand-smocked in New Orleans.
           </h2>
 
           <div class="flex flex-col gap-5 text-base md:text-lg text-ink-muted leading-relaxed font-light">
             <p>
-              Giggle Kids is a small Louisiana atelier specializing in hand-smocked children's clothing — christening gowns, bishop dresses, Jon Jons, and the seasonal Mardi Gras and crawfish prints that have become Southern boutique staples since 2012.
+              Giggle Kids is a small New Orleans studio specializing in hand-smocked children's clothing — christening gowns, bishop dresses, Jon Jons, and the seasonal Mardi Gras and crawfish prints that have become Southern keepsakes since 2012.
             </p>
             <p>
-              Every piece is sewn by a small team of Louisiana smockers, most of whom learned the craft from their mothers or grandmothers. The smocking is done by hand. The construction is done in our Baton Rouge studio. Every piece is checked before it ships.
+              Every piece is sewn by a small team of Louisiana smockers, most of whom learned the craft from their mothers or grandmothers. The smocking is done by hand. The construction is done in our New Orleans studio. Every piece is checked before it ships.
             </p>
           </div>
 
@@ -48,7 +44,7 @@ const facts = [
 
         <div class="lg:col-span-6 order-1 lg:order-2" data-reveal style="--reveal-delay: 200ms">
           <div class="aspect-[4/5] overflow-hidden bg-cream relative">
-            <!-- TODO: replace placeholder with real process detail photograph (close-up of hand-smocking in progress, threaded needle, or fabric on the work table) -->
+            <!-- TODO: replace with real process detail (close-up of hand-smocking, threaded needle, fabric on table) -->
             <img
               src="https://placehold.co/900x1125/EDE3D6/5D4A6E?text=Smocking+Detail"
               alt="Close-up of hand-smocking in progress on Giggle Kids fabric"

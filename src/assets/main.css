@@ -102,11 +102,6 @@
     opacity: 0.55;
   }
 
-  /* Headline italic accent — used inside h1/h2 */
-  .accent-italic {
-    @apply font-serif italic text-purple;
-    font-weight: 500;
-  }
 }
 
 @layer utilities {
