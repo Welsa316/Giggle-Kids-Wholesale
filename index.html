@@ -7,6 +7,10 @@
     <meta name="theme-color" content="#FAF6F1" />
     <meta name="format-detection" content="telephone=no" />
 
+    <!-- Security headers (also set at the host level on Vercel/Netlify; meta tag is a fallback) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://*.myshopify.com https://shopify.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://*.myshopify.com https://*.shopify.com" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Giggle Kids — Hand-Smocked Children's Clothing, Made in New Orleans" />
     <meta property="og:description" content="Christening gowns, bishop dresses, Jon Jons, and Mardi Gras keepsakes — sewn by hand in our New Orleans studio since 2026." />
