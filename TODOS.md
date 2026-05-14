@@ -43,9 +43,39 @@
 
 ## Polish (not blocking)
 
-- [ ] Add **wishlist** (localStorage, then sync to Shopify customer metafields).
+- [ ] Add **wishlist** (localStorage, then sync to Shopify customer metafields once accounts ship).
 - [ ] Variant images on `ProductView.vue` — when a variant is selected, switch the main image to that variant's image.
-- [ ] Address book / saved payment methods on `AccountView.vue` — extend with Customer Account API mutations.
-- [ ] **Order tracking** — link from `AccountView.vue` orders list to Shopify's tracking URL.
 - [ ] Real **handwritten signature** for `AboutFounder.vue` if you want one — currently no signature.
 - [ ] Consider replacing the "Smocking Detail" placeholder photo with a **process video** loop on `AboutFounder.vue`.
+
+## Phase 2 — Customer accounts (deferred, not cancelled)
+
+We launch with guest checkout only. Customer accounts get added back as a follow-up release once core storefront is stable and there's a real product catalog driving traffic.
+
+**Reference implementation lives in git history** at commit `eb6d153` (full Customer Account API + OAuth/PKCE flow + AccountView/LoginView/CallbackView). To restore:
+
+```bash
+git show eb6d153:src/lib/shopifyAccount.js > src/lib/shopifyAccount.js
+git show eb6d153:src/composables/useCustomer.js > src/composables/useCustomer.js
+git show eb6d153:src/views/AccountView.vue > src/views/AccountView.vue
+git show eb6d153:src/views/AccountLoginView.vue > src/views/AccountLoginView.vue
+git show eb6d153:src/views/AccountCallbackView.vue > src/views/AccountCallbackView.vue
+```
+
+Then re-add the three Customer Account env vars to `.env.example`, the `/account/*` routes to `src/router/index.js`, and the account icon to `SiteNav.vue`.
+
+**What needs to be true before enabling accounts:**
+- [ ] Real domain deployed on Vercel (Shopify won't allow `localhost` as an OAuth callback — production URL only)
+- [ ] Customer Account API enabled in Shopify Headless app for the storefront
+- [ ] OAuth client registered with `https://yourdomain.com/account/callback` in the allowlist
+
+**What customers gain:**
+- Order history + reorder
+- Saved addresses + payment methods (Shopify-managed)
+- Faster repeat checkout
+- Wishlist that persists across devices (via Shopify customer metafields)
+
+**What we lose by enabling:**
+- Slight friction at first sign-in (OAuth redirect round-trip)
+- One more thing to support / debug
+- Customer Account API has its own version cadence to track

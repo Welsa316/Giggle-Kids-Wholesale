@@ -107,4 +107,4 @@ The cart ID persists in `localStorage` so it survives reloads. Cart expires serv
 - **Variant images** — currently shows the first image on the product page; could swap to `variant.image` when a variant is selected
 - **Filters / sort on collection page** — Storefront API supports filter args
 - **Wishlist** — pure client-side `localStorage` is fine for v1
-- **Customer accounts** — if you ever want logged-in accounts later, the Customer Account API + OAuth (PKCE) would slot in via a separate `src/lib/shopifyAccount.js` module
+- **Customer accounts** (deferred — Phase 2) — full OAuth (PKCE) implementation lives in git history at commit `eb6d153`. See [TODOS.md](./TODOS.md#phase-2--customer-accounts-deferred-not-cancelled) for the restore checklist when ready to re-enable.
