@@ -92,6 +92,21 @@ export function useProducts() {
   }
 
   async function fetchCollectionByHandle(handle, first = 24) {
+    // Special case: "all" isn't a real Shopify collection in most stores.
+    // Treat it as "every product" — fetch the product list and synthesize
+    // a collection-shaped response so CollectionView keeps working.
+    if (handle === 'all') {
+      const products = await fetchProducts({ first, sortKey: 'CREATED_AT', reverse: true })
+      return {
+        id: 'gid://gk/synthetic/all',
+        title: 'All products',
+        handle: 'all',
+        description: '',
+        image: null,
+        products: { edges: products.map((node) => ({ node })) },
+      }
+    }
+
     if (!isShopifyConfigured) {
       const col = PLACEHOLDER_COLLECTIONS.find((c) => c.handle === handle)
       return col ? { ...col, products: { edges: PLACEHOLDER_PRODUCTS.map((node) => ({ node })) } } : null
@@ -116,15 +131,32 @@ export function useCollections() {
   const loading = ref(false)
   const error = ref(null)
 
-  async function fetchCollections({ first = 6 } = {}) {
+  // Filter out junk system/promo collections that get auto-created by
+  // Shopify or installed apps and pollute the storefront. Examples:
+  //   "NEW! SHOPIFY PERFORMANCE SHARING IS NOW TURNED ON"
+  //   collection handles starting with "shopify-" or with all-caps marketing names
+  function isRealCollection(c) {
+    if (!c?.title || !c?.handle) return false
+    const title = c.title
+    // System / app-generated collections tend to be ALL CAPS, contain "SHOPIFY",
+    // or use marketing-ese ("NEW!", "TURNED ON"). Heuristics catch the obvious ones.
+    if (/SHOPIFY|TURNED ON|PERFORMANCE SHARING|^NEW!/i.test(title)) return false
+    if (title.length > 40) return false
+    if (c.handle === 'frontpage' || c.handle === 'all') return false
+    return true
+  }
+
+  async function fetchCollections({ first = 12 } = {}) {
     if (!isShopifyConfigured) {
       collections.value = PLACEHOLDER_COLLECTIONS
       return PLACEHOLDER_COLLECTIONS
     }
     loading.value = true
     try {
+      // Ask Shopify for more than we need so the filter has room to work.
       const data = await shopifyRequest(QUERY_COLLECTIONS, { first })
-      collections.value = (data?.collections?.edges || []).map((e) => e.node)
+      const all = (data?.collections?.edges || []).map((e) => e.node)
+      collections.value = all.filter(isRealCollection)
       return collections.value
     } catch (e) {
       error.value = e.message

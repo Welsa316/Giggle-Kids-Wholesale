@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useProducts } from '../../composables/useProducts.js'
 
 // Subtle scroll-driven parallax — photos drift opposite to scroll so the
 // cluster feels alive without being gimmicky. Respect prefers-reduced-motion.
@@ -22,23 +23,50 @@ function onScroll() {
   })
 }
 
+// Hero photos pulled from real Shopify products. We fetch the 3 newest
+// products with their featured images and use them as the hero cluster.
+// Falls back to soft placeholders if Shopify isn't configured or returns nothing.
+const PLACEHOLDERS = {
+  main:      'https://placehold.co/900x1300/F5D6D9/5D4A6E?text=%E2%80%83',
+  secondary: 'https://placehold.co/700x900/EDE3D6/5D4A6E?text=%E2%80%83',
+  tertiary:  'https://placehold.co/520x520/D6BDE8/5D4A6E?text=%E2%80%83',
+}
+
+const { products: heroProducts, fetchProducts } = useProducts()
+
+const photos = computed(() => {
+  const list = heroProducts.value || []
+  return {
+    main:      list[0]?.featuredImage?.url || PLACEHOLDERS.main,
+    secondary: list[1]?.featuredImage?.url || PLACEHOLDERS.secondary,
+    tertiary:  list[2]?.featuredImage?.url || PLACEHOLDERS.tertiary,
+  }
+})
+
+const heroLinks = computed(() => {
+  const list = heroProducts.value || []
+  return {
+    main:      list[0]?.handle ? `/products/${list[0].handle}` : '/collections/all',
+    secondary: list[1]?.handle ? `/products/${list[1].handle}` : '/collections/all',
+    tertiary:  list[2]?.handle ? `/products/${list[2].handle}` : '/collections/all',
+  }
+})
+
 onMounted(() => {
   const mq = window.matchMedia?.('(prefers-reduced-motion: reduce)')
   reducedMotion = !!mq?.matches
   mq?.addEventListener?.('change', (e) => { reducedMotion = e.matches })
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
+  fetchProducts({ first: 3, sortKey: 'CREATED_AT', reverse: true })
 })
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', onScroll)
   if (raf) cancelAnimationFrame(raf)
 })
 
-// TODO: replace placeholder URLs with real Giggle Kids editorial photography.
-const photos = {
-  main:      'https://placehold.co/900x1300/F5D6D9/5D4A6E?text=Hero+%28Main%29',
-  secondary: 'https://placehold.co/700x900/EDE3D6/5D4A6E?text=Detail',
-  tertiary:  'https://placehold.co/520x520/D6BDE8/5D4A6E?text=Close-up',
+function onImgError(e) {
+  e.target.style.visibility = 'hidden'
 }
 </script>
 
@@ -51,17 +79,22 @@ const photos = {
     class="md:hidden relative bg-cream overflow-hidden"
     aria-label="Hero"
   >
-    <div class="relative h-[60vh] min-h-[420px] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal" style="animation-delay: 100ms;">
+    <router-link
+      :to="heroLinks.main"
+      class="block relative h-[60vh] min-h-[420px] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal"
+      style="animation-delay: 100ms;"
+      aria-label="Shop the newest arrival"
+    >
       <img
         :src="photos.main"
-        alt="Child wearing a hand-smocked Giggle Kids dress"
+        alt=""
         class="w-full h-full object-cover ken-burns"
         loading="eager"
         fetchpriority="high"
+        @error="onImgError"
       />
       <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-cream to-transparent" aria-hidden="true" />
-
-    </div>
+    </router-link>
 
     <div class="container-page py-12 -mt-8 relative z-10">
       <h1 class="font-serif text-ink leading-[1.0] tracking-[-0.02em] font-medium mb-7" style="font-size: clamp(2.5rem, 12vw, 3.75rem);">
@@ -100,52 +133,59 @@ const photos = {
     style="height: clamp(700px, 100vh, 1000px);"
     aria-label="Hero"
   >
-    <!-- Main photo: tall right block, anchored to right edge -->
-    <div
-      class="absolute top-0 right-0 h-full w-[55%] lg:w-[50%] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal"
+    <!-- Main photo: tall right block, anchored to right edge. Clicks through
+         to the newest product. -->
+    <router-link
+      :to="heroLinks.main"
+      class="absolute top-0 right-0 h-full w-[55%] lg:w-[50%] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal block group"
       style="animation-delay: 200ms;"
+      aria-label="Shop the newest arrival"
     >
       <img
         :src="photos.main"
-        alt="Child wearing a hand-smocked Giggle Kids dress in soft natural light"
+        alt=""
         class="w-full h-full object-cover ken-burns will-change-transform"
         :style="{ transform: `translate3d(0, ${offsetMain}px, 0) scale(1.04)` }"
         loading="eager"
         fetchpriority="high"
+        @error="onImgError"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-cream/30 via-transparent to-transparent" aria-hidden="true" />
-    </div>
+    </router-link>
 
     <!-- Secondary photo: smaller, offset, overlaps the seam -->
-    <figure
-      class="absolute z-20 left-[42%] lg:left-[44%] bottom-[6%] w-[22%] lg:w-[18%] aspect-[4/5] overflow-hidden bg-cream-deep shadow-soft hero-anim hero-anim-reveal"
+    <router-link
+      :to="heroLinks.secondary"
+      class="absolute z-20 left-[42%] lg:left-[44%] bottom-[6%] w-[22%] lg:w-[18%] aspect-[4/5] overflow-hidden bg-cream-deep shadow-soft hero-anim hero-anim-reveal block"
       style="animation-delay: 700ms;"
+      aria-label="Shop product"
     >
       <img
         :src="photos.secondary"
-        alt="Detail of hand-smocking on a Mardi Gras bishop dress"
-        class="w-full h-full object-cover"
+        alt=""
+        class="w-full h-full object-cover img-zoom"
         :style="{ transform: `translate3d(0, ${offsetSecondary}px, 0) scale(1.05)` }"
         loading="eager"
+        @error="onImgError"
       />
-      <figcaption class="absolute bottom-3 left-3 right-3 text-[9px] uppercase tracking-[0.28em] text-cream font-semibold drop-shadow">
-        <span class="font-serif italic normal-case tracking-normal text-xs">Bishop dress,</span> No. 02
-      </figcaption>
-    </figure>
+    </router-link>
 
     <!-- Tertiary tiny detail photo: bottom-right corner accent -->
-    <figure
+    <router-link
+      :to="heroLinks.tertiary"
       class="hidden lg:block absolute z-20 right-[6%] bottom-[10%] w-[12%] aspect-square overflow-hidden bg-cream-deep shadow-soft hero-anim hero-anim-reveal"
       style="animation-delay: 1000ms;"
+      aria-label="Shop product"
     >
       <img
         :src="photos.tertiary"
-        alt="Close-up of smocking stitches"
-        class="w-full h-full object-cover"
+        alt=""
+        class="w-full h-full object-cover img-zoom"
         :style="{ transform: `translate3d(0, ${offsetDetail}px, 0) scale(1.06)` }"
         loading="eager"
+        @error="onImgError"
       />
-    </figure>
+    </router-link>
 
     <!-- Typography column -->
     <div class="relative z-10 h-full flex items-center">
