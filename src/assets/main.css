@@ -50,6 +50,24 @@
 }
 
 @layer components {
+  /* The brand logo (public/logo.png) is white-on-transparent. We use the
+     image's alpha channel as a CSS mask and paint the brand color via
+     background-color. This way the logo can be rendered in any color
+     (ink for cream backgrounds, cream for dark backgrounds, etc).
+     Aspect ratio of the source image is 1050:375 (~2.8:1). */
+  .logo-mask {
+    aspect-ratio: 1050 / 375;
+    background-color: currentColor;
+    -webkit-mask-image: url(/logo.png);
+            mask-image: url(/logo.png);
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: left center;
+            mask-position: left center;
+  }
+
   .container-page {
     @apply mx-auto w-full max-w-content px-6 md:px-12 lg:px-20;
   }

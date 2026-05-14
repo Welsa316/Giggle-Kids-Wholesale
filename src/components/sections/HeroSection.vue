@@ -1,6 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useProducts } from '../../composables/useProducts.js'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 // Subtle scroll-driven parallax — photos drift opposite to scroll so the
 // cluster feels alive without being gimmicky. Respect prefers-reduced-motion.
@@ -23,34 +22,28 @@ function onScroll() {
   })
 }
 
-// Hero photos pulled from real Shopify products. We fetch the 3 newest
-// products with their featured images and use them as the hero cluster.
-// Falls back to soft placeholders if Shopify isn't configured or returns nothing.
-const PLACEHOLDERS = {
-  main:      'https://placehold.co/900x1300/F5D6D9/5D4A6E?text=%E2%80%83',
-  secondary: 'https://placehold.co/700x900/EDE3D6/5D4A6E?text=%E2%80%83',
-  tertiary:  'https://placehold.co/520x520/D6BDE8/5D4A6E?text=%E2%80%83',
+// Hero photos: Unsplash editorial lifestyle shots that match the brand
+// (heritage boutique, soft natural light, child-portrait + craft details).
+// These read as "real lifestyle campaign" instead of catalog product shots.
+//
+// Replace these with real Giggle Kids campaign photography when available —
+// or wire to a named Shopify collection (e.g. "hero-lookbook") via
+// useCollections() if you want them content-managed.
+//
+// All three URLs verified 200. Photo credits: Galina Kondratenko (main),
+// unattributed white-knit macro (secondary), Erwin Bosman (tertiary).
+const photos = {
+  main:      'https://images.unsplash.com/photo-1675098023496-10749984fac6?auto=format&fit=crop&w=1200&q=80',
+  secondary: 'https://images.unsplash.com/photo-1639654817415-52161508b4a3?auto=format&fit=crop&w=900&q=80',
+  tertiary:  'https://images.unsplash.com/photo-1772290660319-ed78b7a2b469?auto=format&fit=crop&w=600&q=80',
 }
 
-const { products: heroProducts, fetchProducts } = useProducts()
-
-const photos = computed(() => {
-  const list = heroProducts.value || []
-  return {
-    main:      list[0]?.featuredImage?.url || PLACEHOLDERS.main,
-    secondary: list[1]?.featuredImage?.url || PLACEHOLDERS.secondary,
-    tertiary:  list[2]?.featuredImage?.url || PLACEHOLDERS.tertiary,
-  }
-})
-
-const heroLinks = computed(() => {
-  const list = heroProducts.value || []
-  return {
-    main:      list[0]?.handle ? `/products/${list[0].handle}` : '/collections/all',
-    secondary: list[1]?.handle ? `/products/${list[1].handle}` : '/collections/all',
-    tertiary:  list[2]?.handle ? `/products/${list[2].handle}` : '/collections/all',
-  }
-})
+// Photos are decorative-but-clickable — they all link into the catalog.
+const heroLinks = {
+  main:      '/collections/all',
+  secondary: '/collections/all',
+  tertiary:  '/collections/all',
+}
 
 onMounted(() => {
   const mq = window.matchMedia?.('(prefers-reduced-motion: reduce)')
@@ -58,7 +51,6 @@ onMounted(() => {
   mq?.addEventListener?.('change', (e) => { reducedMotion = e.matches })
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
-  fetchProducts({ first: 3, sortKey: 'CREATED_AT', reverse: true })
 })
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', onScroll)

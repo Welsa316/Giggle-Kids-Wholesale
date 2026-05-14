@@ -59,12 +59,10 @@ function onKeydown(e) {
     :class="scrolled ? 'bg-cream/92 backdrop-blur-lg border-b border-border' : 'bg-cream/0 backdrop-blur-0 border-b border-transparent'"
     @keydown="onKeydown"
   >
-    <div class="container-page flex items-center justify-between h-20 md:h-24">
-      <router-link to="/" class="flex flex-col leading-none">
-        <span class="font-serif text-2xl md:text-[28px] text-ink font-medium tracking-tight">
-          Giggle Kids
-        </span>
-        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.32em] text-ink-soft mt-1.5">
+    <div class="container-page flex items-center justify-between h-24 md:h-28">
+      <router-link to="/" class="flex flex-col items-start leading-none gap-2" aria-label="Giggle Kids — Home">
+        <span class="logo-mask block h-12 md:h-14 text-ink" role="img" aria-label="Giggle Kids" />
+        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.32em] text-ink-soft">
           Est. 2026 · New Orleans
         </span>
       </router-link>
