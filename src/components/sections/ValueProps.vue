@@ -4,23 +4,23 @@ import SectionHeader from '../ui/SectionHeader.vue'
 const valueProps = [
   {
     number: '01',
-    title: 'Hand-smocked, every piece',
-    body: 'Sewn by a small team of New Orleans smockers — never machine-finished, never outsourced.',
+    title: 'Made in New Orleans',
+    body: 'Designed, sewn, and finished in our small New Orleans studio — never outsourced.',
   },
   {
     number: '02',
-    title: 'Heirloom-grade construction',
-    body: 'Reinforced seams, finished hems, and fabrics that survive being passed down to a younger sibling.',
+    title: 'Two ways to make',
+    body: 'Soft bamboo prints for everyday and parade season; hand-smocked dresses, bubbles, and shorts sets for the keepsake pieces.',
   },
   {
     number: '03',
-    title: 'Made-here detail',
-    body: 'Mardi Gras, crawfish, fleur de lis, seersucker — Louisiana motifs you won\'t find on the rack.',
+    title: 'Louisiana motifs',
+    body: 'Mardi Gras and crawfish prints you won\'t find on the rack — designed for the families who actually live them.',
   },
   {
     number: '04',
-    title: 'Ships within 48 hours',
-    body: 'Stocked and shipped from our New Orleans studio. Complimentary shipping over $75.',
+    title: 'Built to be passed down',
+    body: 'Reinforced seams, finished hems, and fabrics that survive a younger sibling.',
   },
 ]
 </script>
@@ -36,7 +36,7 @@ const valueProps = [
       </div>
       <div class="lg:col-span-6 lg:col-start-7 flex items-end" data-reveal style="--reveal-delay: 150ms">
         <p class="text-base md:text-lg text-ink-muted leading-relaxed font-light max-w-prose">
-          Four reasons our customers come back season after season — christening, Mardi Gras, Easter, and the seasonal staples in between.
+          Four reasons families come back season after season — Mardi Gras, crawfish boil weekends, and the in-between days when a soft bamboo print just feels right.
         </p>
       </div>
     </div>

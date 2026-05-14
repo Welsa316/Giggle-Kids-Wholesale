@@ -26,7 +26,7 @@ const year = new Date().getFullYear()
               Giggle Kids
             </router-link>
             <p class="font-serif italic text-cream/70 text-lg mt-4 max-w-md leading-relaxed">
-              Hand-smocked children's clothing, made in New Orleans, Louisiana since 2026.
+              Mardi Gras and crawfish keepsakes for the little ones &mdash; hand-smocked and bamboo, made in New Orleans.
             </p>
           </div>
         </div>
@@ -135,7 +135,7 @@ const year = new Date().getFullYear()
       </div>
 
       <div class="pt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-[10px] uppercase tracking-[0.22em] text-cream/45">
-        <p>© {{ year }} Giggle Kids · Hand-stitched in New Orleans</p>
+        <p>© {{ year }} Giggle Kids · Made in New Orleans</p>
         <ul class="flex gap-6">
           <li><a href="#" class="hover:text-cream transition-colors">Privacy</a></li>
           <li><a href="#" class="hover:text-cream transition-colors">Terms</a></li>

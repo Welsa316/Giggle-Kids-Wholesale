@@ -196,15 +196,11 @@ watch(() => props.handle, load)
         <ul class="flex flex-col gap-2 text-sm text-ink-muted mt-6 pt-6 border-t border-border-ink/40">
           <li class="flex items-center gap-3">
             <span class="block w-1 h-1 rounded-full bg-purple-soft" />
-            Hand-smocked in our New Orleans studio
+            Made in our New Orleans studio
           </li>
-          <li class="flex items-center gap-3">
+          <li v-if="product.vendor" class="flex items-center gap-3">
             <span class="block w-1 h-1 rounded-full bg-purple-soft" />
-            Ships within 48 hours
-          </li>
-          <li class="flex items-center gap-3">
-            <span class="block w-1 h-1 rounded-full bg-purple-soft" />
-            Complimentary shipping over $75
+            By {{ product.vendor }}
           </li>
         </ul>
       </div>

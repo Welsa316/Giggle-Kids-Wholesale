@@ -12,7 +12,7 @@ const visible = ref(true)
     aria-label="Site announcement"
   >
     <p class="pr-8">
-      Hand-smocked &middot; <span class="font-serif italic normal-case tracking-normal text-[13px]">Made in New Orleans</span>
+      Mardi Gras + Crawfish &middot; <span class="font-serif italic normal-case tracking-normal text-[13px]">Made in New Orleans</span>
     </p>
     <button
       type="button"
