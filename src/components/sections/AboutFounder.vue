@@ -1,56 +1,67 @@
 <script setup>
-import Signature from '../ui/Signature.vue'
-// TODO: replace founder name, photo, copy, and signature with real Giggle Kids founder details
+// Brand-voice section. Intentionally NOT personalized — speaks as the studio,
+// not as a founder. No founder name, no portrait, no signature.
+//
+// Photo treatment: process/craft detail (smocking close-up, fabric on table) —
+// shows the work, not the worker. Like Bottega Veneta's leather details or
+// Aesop's ingredient close-ups.
+
+const facts = [
+  { label: 'Founded', value: '2012' },
+  { label: 'Studio', value: 'Baton Rouge, LA' },
+  { label: 'Smocking', value: 'By hand' },
+  { label: 'Sizes', value: 'Newborn – 6T' },
+]
 </script>
 
 <template>
   <section id="about" class="bg-cream-deep relative overflow-hidden">
     <div class="container-page py-section-lg md:py-section-xl">
-      <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        <div class="lg:col-span-5 order-1" data-reveal>
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+        <div class="lg:col-span-6 order-2 lg:order-1 flex flex-col gap-8" data-reveal>
+          <div class="flex items-center gap-4">
+            <span aria-hidden="true" class="block w-10 h-px bg-purple/60" />
+            <p class="eyebrow">The atelier</p>
+          </div>
+
+          <h2 class="font-serif text-h1 text-ink">
+            A craft tradition,<br />
+            hand-smocked in Louisiana.
+          </h2>
+
+          <div class="flex flex-col gap-5 text-base md:text-lg text-ink-muted leading-relaxed font-light">
+            <p>
+              Giggle Kids is a small Louisiana atelier specializing in hand-smocked children's clothing — christening gowns, bishop dresses, Jon Jons, and the seasonal Mardi Gras and crawfish prints that have become Southern boutique staples since 2012.
+            </p>
+            <p>
+              Every piece is sewn by a small team of Louisiana smockers, most of whom learned the craft from their mothers or grandmothers. The smocking is done by hand. The construction is done in our Baton Rouge studio. Every piece is checked before it ships.
+            </p>
+          </div>
+
+          <dl class="grid grid-cols-2 gap-x-8 gap-y-6 pt-8 mt-2 border-t border-border-ink/60">
+            <div v-for="fact in facts" :key="fact.label" class="flex flex-col gap-1.5">
+              <dt class="text-[10px] uppercase tracking-[0.22em] text-ink-soft font-semibold">{{ fact.label }}</dt>
+              <dd class="font-serif text-xl text-ink leading-tight">{{ fact.value }}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="lg:col-span-6 order-1 lg:order-2" data-reveal style="--reveal-delay: 200ms">
           <div class="aspect-[4/5] overflow-hidden bg-cream relative">
-            <!-- TODO: replace placeholder with real founder portrait (Claire in her Baton Rouge studio, natural light) -->
+            <!-- TODO: replace placeholder with real process detail photograph (close-up of hand-smocking in progress, threaded needle, or fabric on the work table) -->
             <img
-              src="https://placehold.co/900x1125/EDE3D6/5D4A6E?text=Founder+Portrait"
-              alt="Claire Boudreaux, founder of Giggle Kids, in her Baton Rouge studio"
+              src="https://placehold.co/900x1125/EDE3D6/5D4A6E?text=Smocking+Detail"
+              alt="Close-up of hand-smocking in progress on Giggle Kids fabric"
               class="w-full h-full object-cover img-zoom"
               loading="lazy"
             />
           </div>
-          <p class="mt-3 text-[10px] uppercase tracking-[0.28em] text-ink-soft">
+          <p class="mt-4 text-[10px] uppercase tracking-[0.28em] text-ink-soft">
             <span class="italic font-serif normal-case tracking-normal text-xs text-ink-muted mr-2">
-              Claire in her Baton Rouge studio,
+              Smocking detail,
             </span>
-            2024
+            in studio
           </p>
-        </div>
-
-        <div class="lg:col-span-6 lg:col-start-7 flex flex-col gap-8 order-2" data-reveal style="--reveal-delay: 200ms">
-          <div class="flex items-center gap-4">
-            <span aria-hidden="true" class="block w-10 h-px bg-purple/60" />
-            <p class="eyebrow">A family tradition</p>
-          </div>
-
-          <h2 class="font-serif text-h1 text-ink">
-            <span class="accent-italic">Giggle Kids</span> started in my kitchen.
-          </h2>
-
-          <div class="flex flex-col gap-5 text-base md:text-lg text-ink-muted leading-relaxed font-light">
-            <p class="drop-cap">
-              Twelve years ago I couldn't find smocked clothes for my daughter that felt like the ones my mother had made for me. So I dug out her sewing pattern and started stitching in our kitchen in Baton Rouge.
-            </p>
-            <p>
-              Today every piece we ship is still hand-smocked by a small team of Louisiana sewers — most of whom learned the craft from their mothers or grandmothers. We design for boutique buyers who care that things are made well, by hand, by people who know what they're doing.
-            </p>
-          </div>
-
-          <div class="mt-4 flex items-end gap-6">
-            <Signature class="w-44 h-auto" />
-            <div class="pb-1">
-              <p class="font-serif text-base text-ink">Claire Boudreaux</p>
-              <p class="text-[10px] uppercase tracking-[0.22em] text-ink-soft mt-1">Founder &amp; Head Smocker</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

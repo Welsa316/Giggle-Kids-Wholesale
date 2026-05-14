@@ -1,6 +1,5 @@
 <script setup>
 import SectionHeader from '../ui/SectionHeader.vue'
-import Ornament from '../ui/Ornament.vue'
 import { valueProps } from '../../data/valueProps.js'
 </script>
 
@@ -15,7 +14,7 @@ import { valueProps } from '../../data/valueProps.js'
         >
           <template #title>
             Boutique-built.<br />
-            <span class="accent-italic">Faire-friendly.</span>
+            Faire-friendly.
           </template>
         </SectionHeader>
       </div>
@@ -40,6 +39,5 @@ import { valueProps } from '../../data/valueProps.js'
       </li>
     </ul>
 
-    <Ornament variant="asterism" class="mt-24 md:mt-32" />
   </section>
 </template>

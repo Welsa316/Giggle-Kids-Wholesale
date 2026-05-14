@@ -21,7 +21,7 @@ import BaseButton from '../ui/BaseButton.vue'
         </h1>
 
         <p class="text-lg md:text-xl text-ink-muted leading-relaxed max-w-prose font-light">
-          Hand-finished christening gowns, bishop dresses, and bayou-weight bubbles for boutiques that care that things are made well — by hand, by people who know what they're doing.
+          Hand-finished christening gowns, bishop dresses, and bayou-weight bubbles for southern boutiques that care that things are made well.
         </p>
 
         <div class="flex flex-wrap items-center gap-x-8 gap-y-4 mt-3">
@@ -59,18 +59,9 @@ import BaseButton from '../ui/BaseButton.vue'
           />
         </div>
 
-        <p class="mt-3 text-[10px] uppercase tracking-[0.28em] text-ink-soft text-right">
-          <span class="italic font-serif normal-case tracking-normal text-xs text-ink-muted mr-2">Spring 2026 Lookbook,</span> No. 01
+        <p class="mt-4 text-[10px] uppercase tracking-[0.28em] text-ink-soft text-right">
+          <span class="italic font-serif normal-case tracking-normal text-xs text-ink-muted mr-2">Spring 2026,</span> Lookbook
         </p>
-
-        <div class="hidden lg:flex absolute -bottom-10 -left-10 bg-cream border border-border-ink/40 px-7 py-5 shadow-soft items-center gap-5 max-w-[280px]">
-          <span aria-hidden="true" class="block w-px h-12 bg-purple/60" />
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.32em] text-ink-soft mb-1.5">Made in</p>
-            <p class="font-serif text-lg text-ink leading-tight">Baton Rouge</p>
-            <p class="font-serif italic text-sm text-purple">Louisiana</p>
-          </div>
-        </div>
       </div>
     </div>
   </section>

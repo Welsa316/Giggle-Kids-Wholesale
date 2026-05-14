@@ -9,12 +9,8 @@ import { bestSellers } from '../../data/bestSellers.js'
       <div class="lg:col-span-7">
         <SectionHeader
           eyebrow="Best sellers"
-          title=""
-        >
-          <template #title>
-            What boutiques <span class="accent-italic">reorder</span>.
-          </template>
-        </SectionHeader>
+          title="What boutiques reorder."
+        />
       </div>
       <div class="lg:col-span-4 lg:col-start-9 flex items-end" data-reveal style="--reveal-delay: 120ms">
         <p class="text-base md:text-lg text-ink-muted leading-relaxed font-light max-w-prose">
@@ -41,8 +37,8 @@ import { bestSellers } from '../../data/bestSellers.js'
               loading="lazy"
             />
           </div>
-          <p class="text-[10px] uppercase tracking-[0.28em] text-ink-soft font-semibold mb-2">
-            No. {{ String(i + 1).padStart(2, '0') }} · {{ product.sizes }}
+          <p class="text-[10px] uppercase tracking-[0.22em] text-ink-soft font-semibold mb-2">
+            {{ product.sizes }}
           </p>
           <h3 class="font-serif text-xl text-ink leading-tight mb-3">{{ product.name }}</h3>
 

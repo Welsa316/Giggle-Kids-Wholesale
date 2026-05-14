@@ -50,11 +50,11 @@ const year = new Date().getFullYear()
               type="email"
               placeholder="you@boutique.com"
               autocomplete="email"
-              class="flex-1 bg-transparent border-0 border-b border-cream/30 pb-2 text-base text-cream placeholder:text-cream/35 font-serif focus:outline-none focus:border-cream"
+              class="flex-1 bg-transparent border-0 border-b-2 border-cream/60 pb-2 text-base text-cream placeholder:text-cream/55 font-serif focus:outline-none focus:border-cream"
             />
             <button
               type="submit"
-              class="text-[10px] uppercase tracking-[0.22em] font-semibold text-cream border-b border-cream pb-2 hover:border-cream/60 hover:text-cream/80 transition-colors"
+              class="text-[10px] uppercase tracking-[0.22em] font-semibold text-cream border-b-2 border-cream pb-2 hover:border-cream/60 hover:text-cream/80 transition-colors"
             >
               Subscribe
             </button>

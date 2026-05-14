@@ -7,13 +7,9 @@ import { steps } from '../../data/steps.js'
   <section id="how-to-order" class="container-page py-section-lg md:py-section-xl">
     <SectionHeader
       eyebrow="How to order"
-      title=""
+      title="Three steps to a stocked shelf."
       align="center"
-    >
-      <template #title>
-        Three steps to a <span class="accent-italic">stocked shelf</span>.
-      </template>
-    </SectionHeader>
+    />
 
     <ol class="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-x-12 lg:gap-x-20 gap-y-14 max-w-5xl mx-auto relative">
       <span

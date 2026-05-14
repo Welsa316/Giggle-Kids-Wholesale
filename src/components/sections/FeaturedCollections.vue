@@ -10,13 +10,9 @@ import { collections } from '../../data/collections.js'
         <div class="lg:col-span-7">
           <SectionHeader
             eyebrow="The collections"
-            title=""
+            title="Stock the season."
             description=""
-          >
-            <template #title>
-              Six rooms in <span class="accent-italic">the house</span>.
-            </template>
-          </SectionHeader>
+          />
         </div>
         <div class="lg:col-span-4 lg:col-start-9 flex items-end" data-reveal style="--reveal-delay: 150ms">
           <p class="text-base md:text-lg text-ink-muted leading-relaxed font-light max-w-prose">
@@ -45,9 +41,6 @@ import { collections } from '../../data/collections.js'
           </a>
           <div class="flex items-baseline justify-between gap-4 px-1">
             <div>
-              <p class="text-[10px] uppercase tracking-[0.28em] text-ink-soft font-semibold mb-1.5">
-                No. {{ String(i + 1).padStart(2, '0') }}
-              </p>
               <h3 class="font-serif text-2xl text-ink">{{ collection.name }}</h3>
               <p class="font-serif italic text-sm text-ink-muted mt-1.5">{{ collection.blurb }}</p>
             </div>
