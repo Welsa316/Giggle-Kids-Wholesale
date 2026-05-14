@@ -3,7 +3,7 @@
 // Photo treatment: process/craft detail (smocking close-up) — shows the work.
 
 const facts = [
-  { label: 'Founded', value: '2012' },
+  { label: 'Founded', value: '2026' },
   { label: 'Studio', value: 'New Orleans, LA' },
   { label: 'Smocking', value: 'By hand' },
   { label: 'Sizes', value: 'Newborn – 6T' },
@@ -27,7 +27,7 @@ const facts = [
 
           <div class="flex flex-col gap-5 text-base md:text-lg text-ink-muted leading-relaxed font-light">
             <p>
-              Giggle Kids is a small New Orleans studio specializing in hand-smocked children's clothing — christening gowns, bishop dresses, Jon Jons, and the seasonal Mardi Gras and crawfish prints that have become Southern keepsakes since 2012.
+              Giggle Kids is a small New Orleans studio specializing in hand-smocked children's clothing — christening gowns, bishop dresses, Jon Jons, and the seasonal Mardi Gras and crawfish prints that have become Southern keepsakes since 2026.
             </p>
             <p>
               Every piece is sewn by a small team of Louisiana smockers, most of whom learned the craft from their mothers or grandmothers. The smocking is done by hand. The construction is done in our New Orleans studio. Every piece is checked before it ships.

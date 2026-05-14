@@ -40,19 +40,15 @@ const PLACEHOLDER_PRODUCTS = [
   placeholderProduct('p4', "Seersucker Boy's Jon Jon", 'seersucker-jon-jon', 'B8C4B1', 50),
 ]
 
+// Minimal placeholder set — used ONLY when Shopify isn't configured (dev preview).
+// Once Shopify is connected, real collections replace these entirely.
 const PLACEHOLDER_COLLECTIONS = [
-  { id: 'c1', title: 'Mardi Gras', handle: 'mardi-gras', description: 'Purple, green, and gold for parade season',
-    image: { url: 'https://placehold.co/800x800/5D4A6E/FAF6F1?text=Mardi+Gras', altText: '' } },
-  { id: 'c2', title: 'Crawfish', handle: 'crawfish', description: 'Bayou favorites for spring boil season',
-    image: { url: 'https://placehold.co/800x800/F5D6D9/5D4A6E?text=Crawfish', altText: '' } },
-  { id: 'c3', title: 'Christening', handle: 'christening', description: 'Heirloom gowns for the day',
-    image: { url: 'https://placehold.co/800x800/FAF6F1/5D4A6E?text=Christening', altText: '' } },
-  { id: 'c4', title: 'Holiday', handle: 'holiday', description: 'Christmas, Easter, Fourth of July',
-    image: { url: 'https://placehold.co/800x800/B8C4B1/3D3530?text=Holiday', altText: '' } },
-  { id: 'c5', title: 'Boys', handle: 'boys', description: 'Jon Jons, John Johns, and short sets',
-    image: { url: 'https://placehold.co/800x800/A78BB8/FAF6F1?text=Boys', altText: '' } },
-  { id: 'c6', title: 'Girls', handle: 'girls', description: 'Bishop dresses, bubbles, and bloomers',
-    image: { url: 'https://placehold.co/800x800/EDE3D6/5D4A6E?text=Girls', altText: '' } },
+  { id: 'c1', title: 'New Arrivals', handle: 'new-arrivals', description: 'Latest pieces from the studio',
+    image: { url: 'https://placehold.co/800x800/F5D6D9/5D4A6E?text=Sample+Collection', altText: '' } },
+  { id: 'c2', title: 'Mardi Gras', handle: 'mardi-gras', description: 'Purple, green, and gold for parade season',
+    image: { url: 'https://placehold.co/800x800/5D4A6E/FAF6F1?text=Sample+Collection', altText: '' } },
+  { id: 'c3', title: 'Everyday', handle: 'everyday', description: 'Smocked classics for every day',
+    image: { url: 'https://placehold.co/800x800/EDE3D6/5D4A6E?text=Sample+Collection', altText: '' } },
 ]
 
 export function useProducts() {

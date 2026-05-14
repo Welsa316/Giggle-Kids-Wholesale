@@ -21,12 +21,12 @@ const year = new Date().getFullYear()
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 pb-16 md:pb-20 border-b border-cream/10">
         <div class="lg:col-span-7 flex flex-col gap-7" data-reveal>
           <div>
-            <p class="text-[10px] uppercase tracking-[0.32em] text-cream/50 mb-3">Est. 2012</p>
+            <p class="text-[10px] uppercase tracking-[0.32em] text-cream/50 mb-3">Est. 2026</p>
             <router-link to="/" class="font-serif text-5xl md:text-6xl lg:text-7xl text-cream font-medium tracking-tight leading-none inline-block">
               Giggle Kids
             </router-link>
             <p class="font-serif italic text-cream/70 text-lg mt-4 max-w-md leading-relaxed">
-              Hand-smocked children's clothing, made in New Orleans, Louisiana since 2012.
+              Hand-smocked children's clothing, made in New Orleans, Louisiana since 2026.
             </p>
           </div>
         </div>

@@ -1,5 +1,6 @@
 <script setup>
 import AnnouncementBar from './components/sections/AnnouncementBar.vue'
+import ShopifyConfigBanner from './components/sections/ShopifyConfigBanner.vue'
 import SiteNav from './components/sections/SiteNav.vue'
 import SiteFooter from './components/sections/SiteFooter.vue'
 import CartDrawer from './components/cart/CartDrawer.vue'
@@ -16,6 +17,7 @@ useReveal()
     Skip to main content
   </a>
 
+  <ShopifyConfigBanner />
   <AnnouncementBar />
   <SiteNav />
 

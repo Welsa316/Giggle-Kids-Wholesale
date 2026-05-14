@@ -1,20 +1,26 @@
 <script setup>
-import { ref, watch, onUnmounted, onMounted } from 'vue'
+import { ref, watch, onUnmounted, onMounted, computed } from 'vue'
 import { useCart } from '../../composables/useCart.js'
+import { useCollections } from '../../composables/useProducts.js'
 
 const open = ref(false)
 const scrolled = ref(false)
 
 const { totalQuantity, openCart } = useCart()
+const { collections, fetchCollections } = useCollections()
 
-const links = [
-  { label: 'Shop', to: '/collections/all' },
-  { label: 'Christening', to: '/collections/christening' },
-  { label: 'Mardi Gras', to: '/collections/mardi-gras' },
-  { label: 'Boys', to: '/collections/boys' },
-  { label: 'Girls', to: '/collections/girls' },
-  { label: 'Story', to: '/about' },
-]
+// Nav builds dynamically from Shopify collections so it always reflects
+// the real catalog. Falls back to just "Shop / Story" if no collections
+// exist yet (small shops with only products and no curated collections).
+const links = computed(() => {
+  const shop = { label: 'Shop', to: '/collections/all' }
+  const story = { label: 'Story', to: '/about' }
+  const fromShopify = collections.value
+    .filter((c) => c.handle !== 'frontpage' && c.handle !== 'all')
+    .slice(0, 4)
+    .map((c) => ({ label: c.title, to: `/collections/${c.handle}` }))
+  return [shop, ...fromShopify, story]
+})
 
 watch(open, (v) => {
   document.body.style.overflow = v ? 'hidden' : ''
@@ -27,6 +33,7 @@ function onScroll() {
 onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
+  fetchCollections({ first: 8 })
 })
 
 onUnmounted(() => {
@@ -55,7 +62,7 @@ function onKeydown(e) {
           Giggle Kids
         </span>
         <span class="text-[9px] md:text-[10px] uppercase tracking-[0.32em] text-ink-soft mt-1.5">
-          Est. 2012 · New Orleans
+          Est. 2026 · New Orleans
         </span>
       </router-link>
 

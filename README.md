@@ -2,7 +2,7 @@
 
 Custom Vue 3 + Vite + Tailwind frontend for the Giggle Kids Shopify store. Replaces the default Shopify theme — products, collections, cart, and checkout all live in Shopify and are accessed via the Storefront API. Customers check out as guests; Shopify handles payment, fulfillment, and emails.
 
-Brand: hand-smocked children's clothing, made in New Orleans, Louisiana since 2012.
+Brand: hand-smocked children's clothing, made in New Orleans, Louisiana since 2026.
 
 ## Stack
 

@@ -59,7 +59,7 @@ const photos = {
       <!-- Mobile corner marks -->
       <div class="absolute top-5 left-5 hero-anim hero-anim-fade-in" style="animation-delay: 300ms;">
         <p class="text-[10px] uppercase tracking-[0.32em] text-ink font-semibold bg-cream/85 backdrop-blur-sm px-3 py-1.5">
-          Est. 2012
+          Est. 2026
         </p>
       </div>
       <div class="absolute top-5 right-5 hero-anim hero-anim-fade-in" style="animation-delay: 300ms;">
@@ -109,7 +109,7 @@ const photos = {
     <!-- Top-edge corner labels -->
     <div class="absolute top-8 left-12 z-30 hero-anim hero-anim-slide-l" style="animation-delay: 80ms;">
       <p class="text-[10px] uppercase tracking-[0.32em] text-ink-soft font-semibold">
-        Est. 2012 &middot; New Orleans
+        Est. 2026 &middot; New Orleans
       </p>
     </div>
     <div class="absolute top-8 right-12 z-30 hero-anim hero-anim-slide-r" style="animation-delay: 80ms;">

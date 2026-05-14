@@ -187,6 +187,9 @@ export const QUERY_COLLECTIONS = `
           handle
           description
           image { ${IMAGE_FIELDS} }
+          products(first: 1) {
+            edges { node { featuredImage { ${IMAGE_FIELDS} } } }
+          }
         }
       }
     }
