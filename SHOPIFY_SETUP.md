@@ -49,7 +49,7 @@ Powers sign-in, order history, account dashboard. Uses OAuth 2.0 with PKCE — n
 5. Under **Application setup** → **Storefront** → add an OAuth client:
    - **Application type**: Public (PKCE)
    - **Redirect URIs**: add both
-     - `http://localhost:5173/account/callback` (local dev)
+     - `https://localhost:5173/account/callback` (local dev)
      - `https://yourdomain.com/account/callback` (production — add when you deploy)
    - **Scopes**: `openid`, `email`, `customer-account-api:full`
 6. Save. Copy the **Client ID** Shopify generates.
@@ -59,10 +59,16 @@ Add to `.env.local`:
 ```
 VITE_SHOPIFY_SHOP_ID=12345678
 VITE_SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID=<paste the client id>
-VITE_SHOPIFY_CUSTOMER_ACCOUNT_REDIRECT_URI=http://localhost:5173/account/callback
+VITE_SHOPIFY_CUSTOMER_ACCOUNT_REDIRECT_URI=https://localhost:5173/account/callback
 ```
 
 Restart dev server. Visit `/account/login` — clicking the button should redirect to Shopify's hosted login screen, then back to `/account/callback` and into `/account` showing the customer info + order history.
+
+> **Note:** Shopify requires HTTPS for the OAuth callback URL — even on localhost.
+> This project uses [`vite-plugin-mkcert`](https://github.com/liuweiGL/vite-plugin-mkcert)
+> to auto-generate a locally-trusted SSL cert. The dev server runs on
+> `https://localhost:5173` (not `http://`). First run installs a local CA in your
+> system trust store; subsequent runs are seamless.
 
 For production: change the redirect URI to your live domain and re-add it to the Shopify allowlist in the Customer Account API setup page.
 
