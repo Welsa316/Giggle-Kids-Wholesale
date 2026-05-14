@@ -27,10 +27,10 @@ const facts = [
 
         <div class="flex flex-col gap-5 text-base md:text-lg text-ink-muted leading-relaxed font-light">
           <p>
-            Giggle Kids is a small New Orleans label making heirloom keepsakes for the little ones &mdash; designed locally, finished by hand, and built to be passed down.
+            Giggle Kids is a small New Orleans label making heirloom keepsakes for the little ones &mdash; designed and made entirely in our studio, finished by hand, and built to be passed down.
           </p>
           <p>
-            Every piece is checked before it ships. Most are sewn or assembled in-studio; some are sourced from makers we trust. We grow the catalog slowly and keep the standards tight.
+            Every piece is sewn in-house. Every piece is checked before it ships. We grow the catalog slowly and keep the standards tight.
           </p>
         </div>
 

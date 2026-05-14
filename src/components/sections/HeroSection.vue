@@ -153,10 +153,12 @@ function onImgError(e) {
       <div class="absolute inset-0 bg-gradient-to-r from-cream/30 via-transparent to-transparent" aria-hidden="true" />
     </router-link>
 
-    <!-- Secondary photo: smaller, offset, overlaps the seam -->
+    <!-- Secondary photo: sits ON TOP of the main photo (not overlapping into
+         the cream/text column). Anchored to the right side so it never
+         collides with the headline staircase. -->
     <router-link
       :to="heroLinks.secondary"
-      class="absolute z-20 left-[42%] lg:left-[44%] bottom-[6%] w-[22%] lg:w-[18%] aspect-[4/5] overflow-hidden bg-cream-deep shadow-soft hero-anim hero-anim-reveal block"
+      class="hidden md:block absolute z-20 right-[24%] lg:right-[28%] bottom-[8%] w-[18%] lg:w-[15%] aspect-[4/5] overflow-hidden bg-cream-deep shadow-lift hero-anim hero-anim-reveal"
       style="animation-delay: 700ms;"
       aria-label="Shop product"
     >
@@ -173,7 +175,7 @@ function onImgError(e) {
     <!-- Tertiary tiny detail photo: bottom-right corner accent -->
     <router-link
       :to="heroLinks.tertiary"
-      class="hidden lg:block absolute z-20 right-[6%] bottom-[10%] w-[12%] aspect-square overflow-hidden bg-cream-deep shadow-soft hero-anim hero-anim-reveal"
+      class="hidden lg:block absolute z-20 right-[4%] bottom-[5%] w-[10%] aspect-square overflow-hidden bg-cream-deep shadow-lift hero-anim hero-anim-reveal"
       style="animation-delay: 1000ms;"
       aria-label="Shop product"
     >
