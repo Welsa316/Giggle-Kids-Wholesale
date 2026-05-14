@@ -142,4 +142,49 @@
   .card-lift:hover {
     transform: translateY(-2px);
   }
+
+  /* Continuous slow ken-burns zoom on hero photos. */
+  @keyframes ken-burns {
+    0%   { transform: scale(1.0)  translate(0, 0); }
+    50%  { transform: scale(1.08) translate(-1.5%, -1%); }
+    100% { transform: scale(1.0)  translate(0, 0); }
+  }
+  .ken-burns {
+    animation: ken-burns 28s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+  }
+
+  /* Hero entry — stagger fade + slide for cluster pieces. */
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hero-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes hero-slide-in-left {
+    from { opacity: 0; transform: translateX(-24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes hero-slide-in-right {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes hero-image-reveal {
+    from { opacity: 0; transform: scale(0.96); clip-path: inset(8% 8% 8% 8%); }
+    to   { opacity: 1; transform: scale(1);    clip-path: inset(0% 0% 0% 0%); }
+  }
+
+  .hero-anim {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-duration: 1100ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hero-anim-fade-up   { animation-name: hero-fade-up; }
+  .hero-anim-fade-in   { animation-name: hero-fade-in; }
+  .hero-anim-slide-l   { animation-name: hero-slide-in-left; }
+  .hero-anim-slide-r   { animation-name: hero-slide-in-right; }
+  .hero-anim-reveal    { animation-name: hero-image-reveal; animation-duration: 1400ms; }
 }
