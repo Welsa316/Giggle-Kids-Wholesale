@@ -64,56 +64,39 @@ const year = new Date().getFullYear()
         </div>
       </div>
 
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-16 md:py-20 border-b border-cream/10">
+      <div class="grid grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16 py-16 md:py-20 border-b border-cream/10">
         <div>
           <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Shop</h4>
           <ul class="flex flex-col gap-3 text-sm">
-            <li><router-link to="/collections/all" class="text-cream/85 hover:text-cream transition-colors">All clothing</router-link></li>
+            <li><router-link to="/collections/all" class="text-cream/85 hover:text-cream transition-colors">All products</router-link></li>
             <li><router-link to="/collections/new-arrivals" class="text-cream/85 hover:text-cream transition-colors">New arrivals</router-link></li>
-            <li><router-link to="/collections/christening" class="text-cream/85 hover:text-cream transition-colors">Christening</router-link></li>
-            <li><router-link to="/collections/mardi-gras" class="text-cream/85 hover:text-cream transition-colors">Mardi Gras</router-link></li>
-            <li><router-link to="/collections/sale" class="text-cream/85 hover:text-cream transition-colors">Sale</router-link></li>
+            <li><router-link to="/about" class="text-cream/85 hover:text-cream transition-colors">Our story</router-link></li>
           </ul>
         </div>
 
         <div>
           <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Help</h4>
           <ul class="flex flex-col gap-3 text-sm">
+            <!-- TODO: link these to real Shopify pages once written -->
             <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Shipping</a></li>
             <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Returns</a></li>
-            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Sizing</a></li>
-            <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">Care</a></li>
             <li><a href="#" class="text-cream/85 hover:text-cream transition-colors">FAQ</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Studio</h4>
-          <ul class="flex flex-col gap-3 text-sm text-cream/85 font-serif">
-            <!-- TODO: replace with real studio address -->
-            <li class="leading-relaxed">
-              Magazine Street<br />
-              New Orleans, LA 70115
-            </li>
-            <li class="text-cream/55 italic text-xs mt-1">By appointment only</li>
           </ul>
         </div>
 
         <div>
           <h4 class="text-[10px] uppercase tracking-[0.28em] text-cream/55 font-semibold mb-5">Get in touch</h4>
           <ul class="flex flex-col gap-3 text-sm text-cream/85">
-            <!-- TODO: replace with real contact details -->
             <li>
-              <a href="mailto:hello@gigglekidsla.com" class="hover:text-cream transition-colors">
-                hello@gigglekidsla.com
+              <a href="mailto:gigglekids786@gmail.com" class="hover:text-cream transition-colors">
+                gigglekids786@gmail.com
               </a>
             </li>
             <li>
-              <a href="tel:+15045550100" class="hover:text-cream transition-colors">
-                (504) 555-0100
+              <a href="tel:+15042593663" class="hover:text-cream transition-colors">
+                (504) 259-3663
               </a>
             </li>
-            <li class="text-cream/55 italic text-xs">Mon &ndash; Fri, 9 AM &ndash; 5 PM CT</li>
           </ul>
 
           <div class="flex items-center gap-3 mt-6">
@@ -138,7 +121,7 @@ const year = new Date().getFullYear()
               </svg>
             </a>
             <a
-              href="mailto:hello@gigglekidsla.com"
+              href="mailto:gigglekids786@gmail.com"
               aria-label="Email Giggle Kids"
               class="w-9 h-9 rounded-full border border-cream/25 flex items-center justify-center text-cream/85 hover:border-cream hover:text-cream transition-colors"
             >

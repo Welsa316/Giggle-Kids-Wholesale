@@ -56,17 +56,6 @@ const photos = {
       />
       <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-cream to-transparent" aria-hidden="true" />
 
-      <!-- Mobile corner marks -->
-      <div class="absolute top-5 left-5 hero-anim hero-anim-fade-in" style="animation-delay: 300ms;">
-        <p class="text-[10px] uppercase tracking-[0.32em] text-ink font-semibold bg-cream/85 backdrop-blur-sm px-3 py-1.5">
-          Est. 2026
-        </p>
-      </div>
-      <div class="absolute top-5 right-5 hero-anim hero-anim-fade-in" style="animation-delay: 300ms;">
-        <p class="text-[10px] uppercase tracking-[0.28em] text-ink font-semibold bg-cream/85 backdrop-blur-sm px-3 py-1.5 font-serif italic normal-case tracking-normal">
-          Spring 2026
-        </p>
-      </div>
     </div>
 
     <div class="container-page py-12 -mt-8 relative z-10">
@@ -106,20 +95,6 @@ const photos = {
     style="height: clamp(700px, 100vh, 1000px);"
     aria-label="Hero"
   >
-    <!-- Top-edge corner labels -->
-    <div class="absolute top-8 left-12 z-30 hero-anim hero-anim-slide-l" style="animation-delay: 80ms;">
-      <p class="text-[10px] uppercase tracking-[0.32em] text-ink-soft font-semibold">
-        Est. 2026 &middot; New Orleans
-      </p>
-    </div>
-    <div class="absolute top-8 right-12 z-30 hero-anim hero-anim-slide-r" style="animation-delay: 80ms;">
-      <p class="text-[10px] uppercase tracking-[0.32em] text-ink-soft font-semibold flex items-center gap-3 justify-end">
-        <span class="font-serif italic normal-case tracking-normal text-xs text-ink-muted">Spring 2026</span>
-        <span class="block w-6 h-px bg-ink-soft/60" />
-        <span>No. 01</span>
-      </p>
-    </div>
-
     <!-- Main photo: tall right block, anchored to right edge -->
     <div
       class="absolute top-0 right-0 h-full w-[55%] lg:w-[50%] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal"

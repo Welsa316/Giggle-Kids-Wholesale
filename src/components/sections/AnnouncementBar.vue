@@ -12,7 +12,7 @@ const visible = ref(true)
     aria-label="Site announcement"
   >
     <p class="pr-8">
-      Complimentary shipping on orders over <span class="text-cream/85">$75</span>
+      Hand-smocked &middot; <span class="font-serif italic normal-case tracking-normal text-[13px]">Made in New Orleans</span>
     </p>
     <button
       type="button"
