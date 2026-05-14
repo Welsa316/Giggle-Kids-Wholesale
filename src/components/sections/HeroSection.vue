@@ -1,61 +1,14 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-
-// Subtle scroll-driven parallax — photos drift opposite to scroll so the
-// cluster feels alive without being gimmicky. Respect prefers-reduced-motion.
-const offsetMain = ref(0)
-const offsetSecondary = ref(0)
-const offsetDetail = ref(0)
-let raf = 0
-let reducedMotion = false
-
-function onScroll() {
-  if (reducedMotion) return
-  if (raf) return
-  raf = requestAnimationFrame(() => {
-    raf = 0
-    const y = window.scrollY
-    if (y > 900) return
-    offsetMain.value = y * 0.08
-    offsetSecondary.value = y * -0.05
-    offsetDetail.value = y * 0.12
-  })
-}
-
-// Hero photos: Unsplash editorial lifestyle shots that match the brand
-// (heritage boutique, soft natural light, child-portrait + craft details).
-// These read as "real lifestyle campaign" instead of catalog product shots.
+// Single editorial hero photo — Misha & Puff / Magnolia Baby pattern.
+// Per brand research, small heritage boutique sites use one quiet
+// photograph instead of a busy cluster. No parallax. No scroll math.
+// Just a slow ken-burns zoom on the photo (CSS only, gated by
+// prefers-reduced-motion in main.css).
 //
-// Replace these with real Giggle Kids campaign photography when available —
-// or wire to a named Shopify collection (e.g. "hero-lookbook") via
-// useCollections() if you want them content-managed.
-//
-// All three URLs verified 200. Photo credits: Galina Kondratenko (main),
-// unattributed white-knit macro (secondary), Erwin Bosman (tertiary).
-const photos = {
-  main:      'https://images.unsplash.com/photo-1675098023496-10749984fac6?auto=format&fit=crop&w=1200&q=80',
-  secondary: 'https://images.unsplash.com/photo-1639654817415-52161508b4a3?auto=format&fit=crop&w=900&q=80',
-  tertiary:  'https://images.unsplash.com/photo-1772290660319-ed78b7a2b469?auto=format&fit=crop&w=600&q=80',
-}
-
-// Photos are decorative-but-clickable — they all link into the catalog.
-const heroLinks = {
-  main:      '/collections/all',
-  secondary: '/collections/all',
-  tertiary:  '/collections/all',
-}
-
-onMounted(() => {
-  const mq = window.matchMedia?.('(prefers-reduced-motion: reduce)')
-  reducedMotion = !!mq?.matches
-  mq?.addEventListener?.('change', (e) => { reducedMotion = e.matches })
-  window.addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
-})
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll)
-  if (raf) cancelAnimationFrame(raf)
-})
+// Photo: Galina Kondratenko on Unsplash — child in white at sunlit
+// window, soft selective focus. Verified 200.
+// TODO: replace with real Giggle Kids campaign photography.
+const HERO_PHOTO = 'https://images.unsplash.com/photo-1675098023496-10749984fac6?auto=format&fit=crop&w=1400&q=80'
 
 function onImgError(e) {
   e.target.style.visibility = 'hidden'
@@ -64,7 +17,7 @@ function onImgError(e) {
 
 <template>
   <!-- =====================================================================
-       MOBILE HERO — stacks photo above text, full-width, magazine-cover feel
+       MOBILE HERO — full-width photo on top, text below
        ===================================================================== -->
   <section
     id="top"
@@ -72,23 +25,23 @@ function onImgError(e) {
     aria-label="Hero"
   >
     <router-link
-      :to="heroLinks.main"
-      class="block relative h-[60vh] min-h-[420px] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal"
+      to="/collections/all"
+      class="block relative h-[65vh] min-h-[460px] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal"
       style="animation-delay: 100ms;"
-      aria-label="Shop the newest arrival"
+      aria-label="Shop all products"
     >
       <img
-        :src="photos.main"
+        :src="HERO_PHOTO"
         alt=""
-        class="w-full h-full object-cover ken-burns"
+        class="w-full h-full object-cover object-center ken-burns"
         loading="eager"
         fetchpriority="high"
         @error="onImgError"
       />
-      <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-cream to-transparent" aria-hidden="true" />
+      <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-cream/80 to-transparent" aria-hidden="true" />
     </router-link>
 
-    <div class="container-page py-12 -mt-8 relative z-10">
+    <div class="container-page py-12 -mt-6 relative z-10">
       <h1 class="font-serif text-ink leading-[1.0] tracking-[-0.02em] font-medium mb-7" style="font-size: clamp(2.5rem, 12vw, 3.75rem);">
         <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Made in</span>
         <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">New Orleans,</span>
@@ -118,74 +71,38 @@ function onImgError(e) {
   </section>
 
   <!-- =====================================================================
-       DESKTOP HERO — magazine spread, asymmetric photo cluster
+       DESKTOP HERO — single photo right, text left, generous whitespace
        ===================================================================== -->
   <section
     class="hidden md:block relative bg-cream overflow-hidden"
-    style="height: clamp(700px, 100vh, 1000px);"
+    style="height: clamp(700px, 92vh, 940px);"
     aria-label="Hero"
   >
-    <!-- Main photo: tall right block, anchored to right edge. Clicks through
-         to the newest product. -->
+    <!-- Main photo: right 55% of viewport, full height, single editorial frame -->
     <router-link
-      :to="heroLinks.main"
-      class="absolute top-0 right-0 h-full w-[55%] lg:w-[50%] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal block group"
+      to="/collections/all"
+      class="absolute top-0 right-0 h-full w-[55%] lg:w-[52%] overflow-hidden bg-cream-deep hero-anim hero-anim-reveal block"
       style="animation-delay: 200ms;"
-      aria-label="Shop the newest arrival"
+      aria-label="Shop all products"
     >
       <img
-        :src="photos.main"
+        :src="HERO_PHOTO"
         alt=""
-        class="w-full h-full object-cover ken-burns will-change-transform"
-        :style="{ transform: `translate3d(0, ${offsetMain}px, 0) scale(1.04)` }"
+        class="w-full h-full object-cover object-center ken-burns"
         loading="eager"
         fetchpriority="high"
         @error="onImgError"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-cream/30 via-transparent to-transparent" aria-hidden="true" />
-    </router-link>
-
-    <!-- Secondary photo: sits ON TOP of the main photo (not overlapping into
-         the cream/text column). Anchored to the right side so it never
-         collides with the headline staircase. -->
-    <router-link
-      :to="heroLinks.secondary"
-      class="hidden md:block absolute z-20 right-[24%] lg:right-[28%] bottom-[8%] w-[18%] lg:w-[15%] aspect-[4/5] overflow-hidden bg-cream-deep shadow-lift hero-anim hero-anim-reveal"
-      style="animation-delay: 700ms;"
-      aria-label="Shop product"
-    >
-      <img
-        :src="photos.secondary"
-        alt=""
-        class="w-full h-full object-cover img-zoom"
-        :style="{ transform: `translate3d(0, ${offsetSecondary}px, 0) scale(1.05)` }"
-        loading="eager"
-        @error="onImgError"
-      />
-    </router-link>
-
-    <!-- Tertiary tiny detail photo: bottom-right corner accent -->
-    <router-link
-      :to="heroLinks.tertiary"
-      class="hidden lg:block absolute z-20 right-[4%] bottom-[5%] w-[10%] aspect-square overflow-hidden bg-cream-deep shadow-lift hero-anim hero-anim-reveal"
-      style="animation-delay: 1000ms;"
-      aria-label="Shop product"
-    >
-      <img
-        :src="photos.tertiary"
-        alt=""
-        class="w-full h-full object-cover img-zoom"
-        :style="{ transform: `translate3d(0, ${offsetDetail}px, 0) scale(1.06)` }"
-        loading="eager"
-        @error="onImgError"
-      />
+      <!-- Soft cream gradient on the left edge of the photo so it transitions
+           gently into the text column — no harsh seam. -->
+      <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-cream/40 to-transparent" aria-hidden="true" />
     </router-link>
 
     <!-- Typography column -->
     <div class="relative z-10 h-full flex items-center">
       <div class="container-page w-full">
-        <div class="max-w-[640px] flex flex-col gap-8 md:gap-10">
-          <h1 class="font-serif text-ink leading-[0.98] tracking-[-0.025em] font-medium" style="font-size: clamp(2.75rem, 7vw, 5.75rem);">
+        <div class="max-w-[560px] flex flex-col gap-8 md:gap-10">
+          <h1 class="font-serif text-ink leading-[0.98] tracking-[-0.025em] font-medium" style="font-size: clamp(2.75rem, 6.5vw, 5.25rem);">
             <span class="block hero-anim hero-anim-fade-up" style="animation-delay: 280ms;">Made in</span>
             <span class="block hero-anim hero-anim-fade-up pl-[6%]" style="animation-delay: 420ms;">New Orleans,</span>
             <span class="block hero-anim hero-anim-fade-up pl-[12%] italic text-purple" style="animation-delay: 560ms;">for keeping.</span>
@@ -215,16 +132,5 @@ function onImgError(e) {
         </div>
       </div>
     </div>
-
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hero-anim hero-anim-fade-in" style="animation-delay: 1500ms;">
-      <a href="#scroll-target" aria-label="Scroll to next section" class="flex flex-col items-center gap-3 text-ink-soft hover:text-purple transition-colors group">
-        <span class="text-[9px] uppercase tracking-[0.32em] font-semibold">Scroll</span>
-        <span class="block w-px h-10 bg-current opacity-40 group-hover:opacity-100 transition-opacity">
-          <span class="block w-px h-3 bg-purple animate-pulse"></span>
-        </span>
-      </a>
-    </div>
-    <span id="scroll-target" class="absolute bottom-0" aria-hidden="true" />
   </section>
 </template>
